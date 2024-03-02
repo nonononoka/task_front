@@ -17,7 +17,10 @@ const SignUp = () => {
 
   const [user, setUser] = useState("");
   useEffect(() => {
-    onAuthStateChanged(auth, (currentUser) => [setUser(currentUser)]);
+    onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      localStorage.setItem("token",currentUser.uid);
+    });
   });
   const handleChangeEmail = (event) => {
     setEmail(event.currentTarget.value);
