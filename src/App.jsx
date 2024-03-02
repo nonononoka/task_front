@@ -4,15 +4,17 @@ import UserAccount from "./components/UserAccount";
 import TimeLine from "./components/TimeLine";
 import EverydayTask from "./components/EverydayTask";
 import TaskList from "./components/TaskList";
+import Menu from "./components/Menu";
 
 function App() {
   return (
     <BrowserRouter>
+      <Menu />
       <Routes>
-        <Route path="/account" element={<UserAccount />} />
-        <Route path="/timeline" element={<TimeLine />} />
-        <Route path="/everydaytask" element={<EverydayTask />} />
-        <Route path="/tasklist" element={<TaskList />} />
+        <Route path="/UserAccount" element={<UserAccount />} />
+        <Route path="/TimeLine" element={<TimeLine />} />
+        <Route path="/" element={<EverydayTask />} />
+        <Route path="/TaskList" element={<TaskList />} />
       </Routes>
     </BrowserRouter>
   );

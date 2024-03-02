@@ -15,30 +15,30 @@ const EverydayTask = () => {
   };
 
   const urgentTask = {
-    first: [
-      { name: "task1", priority: "high", category: "hobbby", limit: "3/2" },
-    ],
-    second: [
-      { name: "task1", priority: "high", category: "hobbby", limit: "3/3" },
-    ],
-    third: [
-      { name: "task1", priority: "high", category: "hobbby", limit: "3/4" },
-    ],
+    first: {
+      name: "task1",
+      priority: "high",
+      category: "hobbby",
+      limit: "3/2",
+    },
+    second: {
+      name: "task1",
+      priority: "high",
+      category: "hobbby",
+      limit: "3/3",
+    },
+    third: {
+      name: "task1",
+      priority: "high",
+      category: "hobbby",
+      limit: "3/4",
+    },
   };
 
   return (
     <>
       <div>
-        <ul>
-          <li>account</li>
-          <li>timeline</li>
-          <li>today task</li>
-          <li>task list</li>
-        </ul>
-      </div>
-
-      <div>
-        <h3>everyday task</h3>
+        <h1>everyday task</h1>
         <div>
           <h4>yesterday</h4>
           {taskCard.yesterday.map((task) => {

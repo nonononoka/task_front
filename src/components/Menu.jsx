@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 const Menu = () => {
   const navigate = useNavigate();
 
-  const onClickAccount = () => {
-    navigate("/Account");
+  const onClickUserAccount = () => {
+    navigate("/UserAccount");
   };
 
   const onClickEverydayTask = () => {
@@ -16,13 +16,13 @@ const Menu = () => {
   };
 
   const onClickTimeLine = () => {
-    navigate("/Timeline");
+    navigate("/TimeLine");
   };
 
   return (
     <div className="Home">
-      <h1>Home Page</h1>
-      <button onClick={onClickAccount}>Account</button>
+      <h1>Menu</h1>
+      <button onClick={onClickUserAccount}>Account</button>
       <p></p>
       <button onClick={onClickTimeLine}>Timeline</button>
       <p></p>
