@@ -1,67 +1,40 @@
 import { useState } from "react";
-import { gql, useMutation } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 
 const EverydayTask = () => {
   const [val, setVal] = useState("");
   const clearVal = () => setVal("");
 
   const ADD_TASK_MUTATION = gql`
-    mutation addFakeUsers($count: Int!) {
-      addFakeUsers(count: $count) {
-        githubLogin
+    mutation Mutation($input: String!) {
+      addTask(input: $input) {
+        id
         name
-        avatar
+        postedBy
       }
     }
   `;
 
   const ALL_TASKS = gql`
-    query alltasks {
-      alltasks {
+    query AllTasks {
+      allTasks {
+        id
         name
+        postedBy
       }
     }
   `;
 
-  // const taskCard = {
-  //   yesterday: [
-  //     { name: "task1", priority: "high", category: "hobbby" },
-  //     { name: "task2", priority: "middle", category: "hobbby" },
-  //   ],
-  //   today: [
-  //     { name: "task1", priority: "high", category: "hobbby" },
-  //     { name: "task2", priority: "middle", category: "hobbby" },
-  //   ],
-  //   tomorrow: [
-  //     { name: "task1", priority: "high", category: "hobbby" },
-  //     { name: "task2", priority: "middle", category: "hobbby" },
-  //   ],
-  // };
-
-  // const urgentTask = {
-  //   first: {
-  //     name: "task1",
-  //     priority: "high",
-  //     category: "hobbby",
-  //     limit: "3/2",
-  //   },
-  //   second: {
-  //     name: "task1",
-  //     priority: "high",
-  //     category: "hobbby",
-  //     limit: "3/3",
-  //   },
-  //   third: {
-  //     name: "task1",
-  //     priority: "high",
-  //     category: "hobbby",
-  //     limit: "3/4",
-  //   },
-  // };
+  const { loading, data,error } = useQuery(ALL_TASKS);
+  
   const [addTask] = useMutation(ADD_TASK_MUTATION, {
-    variables: { name: val },
     refetchQueries: [{ query: ALL_TASKS }],
   });
+
+  if (loading) return <p>Loading...</p>;
+  if(error) return <p>error</p>
+
+  console.log(data)
 
   return (
     <>
@@ -71,54 +44,20 @@ const EverydayTask = () => {
         value={val}
         onChange={(e) => setVal(e.target.value)}
       />
-      <button onClick={clearVal}>add task</button>
-      <button onClick={clearVal}>clear</button>
-      {/* <div>
-          <h4>yesterday</h4>
-          {taskCard.yesterday.map((task) => {
-            return (
-              <>
-                <p>name:{task.name}</p>
-                <p>priority:{task.priority}</p>
-                <p>category:{task.category}</p>
-              </>
-            );
-          })}
-          <h4>today</h4>
-          {taskCard.today.map((task) => {
-            return (
-              <>
-                <p>name:{task.name}</p>
-                <p>priority:{task.priority}</p>
-                <p>category:{task.category}</p>
-              </>
-            );
-          })}
-          <h4>tomorrow</h4>
-          {taskCard.tomorrow.map((task) => {
-            return (
-              <>
-                <p>name:{task.name}</p>
-                <p>priority:{task.priority}</p>
-                <p>category:{task.category}</p>
-              </>
-            );
-          })}
-        </div>
-      </div> */}
 
-      {/* <div>
-        <h3>urgent task</h3>
-        <p>
-          1:{urgentTask.first.name},{urgentTask.first.limit}
-        </p>
-        <p>
-          2:{urgentTask.second.name},{urgentTask.second.limit}
-        </p>
-        <p>
-          3:{urgentTask.third.name},{urgentTask.third.limit}
-        </p>
-      </div> */}
+      <button onClick={clearVal}>clear</button>
+      <button
+        onClick={() =>
+          addTask({
+            variables: {
+              input: val,
+            },
+          })
+        }
+      >
+        add Task
+      </button>
+      <div>{data.allTasks.map((task) => <p key = {task.id}>{task.name}</p>)}</div>
     </>
   );
 };
