@@ -30,11 +30,11 @@ const EverydayTask = () => {
   const [addTask] = useMutation(ADD_TASK_MUTATION, {
     refetchQueries: [{ query: ALL_TASKS }],
   });
+  if(error){
+    console.log(error.message)
+  }
 
-  if (loading) return <p>Loading...</p>;
-  if(error) return <p>error</p>
-
-  console.log(data)
+  if (loading || error) return <></>;
 
   return (
     <>
