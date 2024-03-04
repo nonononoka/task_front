@@ -32,6 +32,4 @@ const PrivateRoute = ({ children }) => {
   }
 };
 
-// {/* <Route path="/SignUp" element={<SignUp />} /> */}
-
 export default PrivateRoute;

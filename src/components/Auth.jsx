@@ -10,10 +10,10 @@ export const Auth = ({ children }) => {
 
   useEffect(() => {
     onAuthStateChanged(auth, async (currentUser) => {
-      console.log(currentUser);
       setUser(currentUser);
       if (currentUser) {
-        const token = await currentUser.getIdToken();
+        const token = await currentUser.getIdToken(true);
+        console.log(token)
         setIdToken(token);
       }
     });

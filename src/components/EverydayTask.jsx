@@ -1,45 +1,55 @@
-const EverydayTask = () => {
-  const taskCard = {
-    yesterday: [
-      { name: "task1", priority: "high", category: "hobbby" },
-      { name: "task2", priority: "middle", category: "hobbby" },
-    ],
-    today: [
-      { name: "task1", priority: "high", category: "hobbby" },
-      { name: "task2", priority: "middle", category: "hobbby" },
-    ],
-    tomorrow: [
-      { name: "task1", priority: "high", category: "hobbby" },
-      { name: "task2", priority: "middle", category: "hobbby" },
-    ],
-  };
+import { useState } from "react";
 
-  const urgentTask = {
-    first: {
-      name: "task1",
-      priority: "high",
-      category: "hobbby",
-      limit: "3/2",
-    },
-    second: {
-      name: "task1",
-      priority: "high",
-      category: "hobbby",
-      limit: "3/3",
-    },
-    third: {
-      name: "task1",
-      priority: "high",
-      category: "hobbby",
-      limit: "3/4",
-    },
-  };
+const EverydayTask = () => {
+  const [val, setVal] = useState("");
+  const clearVal = () => setVal("");
+  // const taskCard = {
+  //   yesterday: [
+  //     { name: "task1", priority: "high", category: "hobbby" },
+  //     { name: "task2", priority: "middle", category: "hobbby" },
+  //   ],
+  //   today: [
+  //     { name: "task1", priority: "high", category: "hobbby" },
+  //     { name: "task2", priority: "middle", category: "hobbby" },
+  //   ],
+  //   tomorrow: [
+  //     { name: "task1", priority: "high", category: "hobbby" },
+  //     { name: "task2", priority: "middle", category: "hobbby" },
+  //   ],
+  // };
+
+  // const urgentTask = {
+  //   first: {
+  //     name: "task1",
+  //     priority: "high",
+  //     category: "hobbby",
+  //     limit: "3/2",
+  //   },
+  //   second: {
+  //     name: "task1",
+  //     priority: "high",
+  //     category: "hobbby",
+  //     limit: "3/3",
+  //   },
+  //   third: {
+  //     name: "task1",
+  //     priority: "high",
+  //     category: "hobbby",
+  //     limit: "3/4",
+  //   },
+  // };
 
   return (
     <>
-      <div>
         <h1>everyday task</h1>
-        <div>
+        <input
+        placeholder="your task"
+        value={val}
+        onChange={(e) => setVal(e.target.value)}
+      />
+      <button onClick={clearVal}>add task</button>
+      <button onClick={clearVal}>clear</button>
+        {/* <div>
           <h4>yesterday</h4>
           {taskCard.yesterday.map((task) => {
             return (
@@ -71,9 +81,9 @@ const EverydayTask = () => {
             );
           })}
         </div>
-      </div>
+      </div> */}
 
-      <div>
+      {/* <div>
         <h3>urgent task</h3>
         <p>
           1:{urgentTask.first.name},{urgentTask.first.limit}
@@ -84,7 +94,7 @@ const EverydayTask = () => {
         <p>
           3:{urgentTask.third.name},{urgentTask.third.limit}
         </p>
-      </div>
+      </div> */}
     </>
   );
 };
