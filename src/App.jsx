@@ -17,7 +17,6 @@ import {
 import { setContext } from "@apollo/client/link/context";
 
 const createApolloClient = (token) => {
-  console.log("create apollo client");
   const httpLink = createHttpLink({
     uri: "http://localhost:4000/graphql",
   });
@@ -26,7 +25,7 @@ const createApolloClient = (token) => {
     return {
       headers: {
         ...headers,
-        authorization: token ? token : "",
+        "authorization": token ? token : "",
       },
     };
   });
@@ -40,6 +39,7 @@ const createApolloClient = (token) => {
 
 function App({ idToken }) {
   const client = createApolloClient(idToken);
+  console.log(client)
   const elements = [
     { path: "/UserAccount", element: <UserAccount /> },
     { path: "/TimeLine", element: <TimeLine /> },
