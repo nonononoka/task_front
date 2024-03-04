@@ -1,8 +1,28 @@
 import { useState } from "react";
+import { gql, useMutation } from "@apollo/client";
 
 const EverydayTask = () => {
   const [val, setVal] = useState("");
   const clearVal = () => setVal("");
+
+  const ADD_TASK_MUTATION = gql`
+    mutation addFakeUsers($count: Int!) {
+      addFakeUsers(count: $count) {
+        githubLogin
+        name
+        avatar
+      }
+    }
+  `;
+
+  const ALL_TASKS = gql`
+    query alltasks {
+      alltasks {
+        name
+      }
+    }
+  `;
+
   // const taskCard = {
   //   yesterday: [
   //     { name: "task1", priority: "high", category: "hobbby" },
@@ -38,18 +58,22 @@ const EverydayTask = () => {
   //     limit: "3/4",
   //   },
   // };
+  const [addTask] = useMutation(ADD_TASK_MUTATION, {
+    variables: { name: val },
+    refetchQueries: [{ query: ALL_TASKS }],
+  });
 
   return (
     <>
-        <h1>everyday task</h1>
-        <input
+      <h1>everyday task</h1>
+      <input
         placeholder="your task"
         value={val}
         onChange={(e) => setVal(e.target.value)}
       />
       <button onClick={clearVal}>add task</button>
       <button onClick={clearVal}>clear</button>
-        {/* <div>
+      {/* <div>
           <h4>yesterday</h4>
           {taskCard.yesterday.map((task) => {
             return (
