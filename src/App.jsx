@@ -39,7 +39,6 @@ const createApolloClient = (token) => {
 
 function App({ idToken }) {
   const client = createApolloClient(idToken);
-  console.log(client)
   const elements = [
     { path: "/UserAccount", element: <UserAccount /> },
     { path: "/TimeLine", element: <TimeLine /> },

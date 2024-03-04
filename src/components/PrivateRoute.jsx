@@ -11,6 +11,7 @@ const PrivateRoute = ({ children }) => {
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
+      console.log(user);
       if (user) {
         setUser(user);
       }
@@ -22,9 +23,11 @@ const PrivateRoute = ({ children }) => {
     if (user) {
       return <>{children}</>;
     } else {
+      console.log("navigate");
       return <Navigate replace to="/Login" />;
     }
   } else {
+    console.log("aaa");
     return <></>;
   }
 };
