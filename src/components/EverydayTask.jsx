@@ -1,4 +1,4 @@
-const EverydayTask= () => {
+const EverydayTask = () => {
   return (
     <>
       <h1>Everyday Task</h1>

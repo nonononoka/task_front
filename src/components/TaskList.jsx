@@ -8,11 +8,12 @@ const TaskList = () => {
   const clearVal = () => setVal("");
 
   const ADD_TASK_MUTATION = gql`
-    mutation Mutation($input: AddTaskInput!) {
-      addTask(input: $input) {
-        name
+    mutation RegisterTask($input: AddTaskInput!) {
+      registerTask(input: $input) {
         id
         limitDate
+        name
+        postedBy
       }
     }
   `;
@@ -25,11 +26,9 @@ const TaskList = () => {
 
   const ALL_TASKS = gql`
     query AllTasks {
-      allTasks {
-        id
-        name
-        postedBy
+      allRegisteredTasks {
         limitDate
+        name
       }
     }
   `;
@@ -37,7 +36,6 @@ const TaskList = () => {
   const { loading, data, error } = useQuery(ALL_TASKS);
   const Today = new Date();
   const [date, setDate] = useState(Today);
-  console.log(date);
 
   const [addTask] = useMutation(ADD_TASK_MUTATION, {
     refetchQueries: [{ query: ALL_TASKS }],
@@ -84,7 +82,7 @@ const TaskList = () => {
         add Task
       </button>
       <div>
-        {data.allTasks.map((task) => (
+        {data.allRegisteredTasks.map((task) => (
           <>
             <p key={task.id}>
               name: {task.name} limit: {task.limitDate.split("T")[0]}
