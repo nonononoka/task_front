@@ -66,6 +66,9 @@ const TaskList = () => {
           }}
         />
       </div>
+      <div>
+        <button onClick={() => setDate(null)}>日付を設定しない</button>
+      </div>
       <button onClick={clearVal}>clear</button>
       <button
         onClick={() =>
@@ -73,7 +76,7 @@ const TaskList = () => {
             variables: {
               input: {
                 name: val,
-                limitDate: date.toISOString(),
+                limitDate: date ? date.toISOString() : null,
               },
             },
           })
@@ -84,9 +87,8 @@ const TaskList = () => {
       <div>
         {data.allRegisteredTasks.map((task) => (
           <>
-            <p key={task.id}>
-              name: {task.name} limit: {task.limitDate.split("T")[0]}
-            </p>
+            <p key={task.id}>name: {task.name} </p>
+            {task.limitDate && <p>limit:{task.limitDate.split("T")[0]}</p>}
           </>
         ))}
       </div>
