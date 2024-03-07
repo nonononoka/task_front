@@ -27,7 +27,6 @@ const PrivateRoute = ({ children }) => {
       return <Navigate replace to="/Login" />;
     }
   } else {
-    console.log("aaa");
     return <></>;
   }
 };
