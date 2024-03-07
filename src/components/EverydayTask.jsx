@@ -14,34 +14,42 @@ const EverydayTask = () => {
     Today.getDate() + 1
   );
 
-  const ALL_TASKS = gql`
+  const ALL_REGISTERED_SHORT_TASKS = gql`
     query AllTasks {
-      allRegisteredTasks {
+      allRegisteredShortTasks {
         id
-        limitDate
+        expirationDate
         name
-        isTemporary
+        isCompleted
       }
     }
   `;
 
-  const { data, error, loading } = useQuery(ALL_TASKS);
+  const isDateMatched = (taskExpirationDate, date) => {
+    const taskDateObj = new Date(taskExpirationDate);
+    const dateObj = new Date(date);
+    return (
+      taskDateObj.getFullYear() == dateObj.getFullYear() &&
+      taskDateObj.getMonth() == dateObj.getMonth() &&
+      taskDateObj.getDay() == dateObj.getDay()
+    );
+  };
+
+  const { data, error, loading } = useQuery(ALL_REGISTERED_SHORT_TASKS);
   if (error) {
     console.log(error.message);
   }
 
   if (loading || error) return <></>;
 
-  const yesterday_task = data.allRegisteredTasks.filter(
-    (task) =>
-      task.isTemporary === true && task.limitDate == Yesterday.toISOString()
+  const yesterday_task = data.allRegisteredShortTasks.filter((task) =>
+    isDateMatched(task.expirationDate, Yesterday.toISOString())
   );
-  const today_task = data.allRegisteredTasks.filter(
-    (task) => task.isTemporary === true && task.limitDate == Today.toISOString()
+  const today_task = data.allRegisteredShortTasks.filter((task) =>
+    isDateMatched(task.expirationDate, Today.toISOString())
   );
-  const tomorrow_task = data.allRegisteredTasks.filter(
-    (task) =>
-      task.isTemporary === true && task.limitDate == Tomorrow.toISOString()
+  const tomorrow_task = data.allRegisteredShortTasks.filter((task) =>
+    isDateMatched(task.expirationDate, Tomorrow.toISOString())
   );
 
   return (
@@ -51,10 +59,7 @@ const EverydayTask = () => {
         <h2>yesterday</h2>
         <>
           {yesterday_task.map((task) => (
-            <p key={task.id}>
-              {task.name}
-              {task.limitDate}
-            </p>
+            <p key={task.id}>{task.name}</p>
           ))}
           <AddTask isTemporary={true} temporaryDate={Yesterday} />
         </>
@@ -62,12 +67,18 @@ const EverydayTask = () => {
       <div>
         <h2>today</h2>
         <>
+          {today_task.map((task) => (
+            <p key={task.id}>{task.name}</p>
+          ))}
           <AddTask isTemporary={true} temporaryDate={Today} />
         </>
       </div>
       <div>
         <h2>tomorrow</h2>
         <>
+          {tomorrow_task.map((task) => (
+            <p key={task.id}>{task.name}</p>
+          ))}
           <AddTask isTemporary={true} temporaryDate={Tomorrow} />
         </>
       </div>

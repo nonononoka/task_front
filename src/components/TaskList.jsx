@@ -14,7 +14,6 @@ const TaskList = () => {
         id
         limitDate
         name
-        isTemporary
       }
     }
   `;
@@ -36,16 +35,14 @@ const TaskList = () => {
       <h1>task list</h1>
       <AddTask temporaryDate={Today} isTemporary={false} />
       <div>
-        {data.allRegisteredTasks
-          .filter((task) => task.isTemporary === false)
-          .map((task) => (
-            <>
-              <p key={task.id}>name: {task.name} </p>
-              {task.limitDate && (
-                <p key={task.id}>limit:{task.limitDate.split("T")[0]}</p>
-              )}
-            </>
-          ))}
+        {data.allRegisteredTasks.map((task) => (
+          <>
+            <p key={task.id}>name: {task.name} </p>
+            {task.limitDate && (
+              <p key={task.id}>limit:{task.limitDate.split("T")[0]}</p>
+            )}
+          </>
+        ))}
       </div>
       <button onClick={() => removeAllTasks()}>delete all tasks</button>
     </>

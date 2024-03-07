@@ -15,13 +15,34 @@ export const AddTask = ({ isTemporary, temporaryDate }) => {
     }
   `;
 
+  const ADD_SHORT_TASK_MUTATION = gql`
+    mutation RegisterTask($input: AddShortTaskInput!) {
+      registerShortTask(input: $input) {
+        id
+        expirationDate
+        name
+        postedBy
+      }
+    }
+  `;
+
   const ALL_TASKS = gql`
     query AllTasks {
       allRegisteredTasks {
         id
         limitDate
         name
-        isTemporary
+      }
+    }
+  `;
+
+  const ALL_REGISTERED_SHORT_TASKS = gql`
+    query AllTasks {
+      allRegisteredShortTasks {
+        id
+        expirationDate
+        name
+        isCompleted
       }
     }
   `;
@@ -33,6 +54,10 @@ export const AddTask = ({ isTemporary, temporaryDate }) => {
 
   const [addTask] = useMutation(ADD_TASK_MUTATION, {
     refetchQueries: [{ query: ALL_TASKS }],
+  });
+
+  const [addShortTask] = useMutation(ADD_SHORT_TASK_MUTATION, {
+    refetchQueries: [{ query: ALL_REGISTERED_SHORT_TASKS }],
   });
 
   return (
@@ -61,15 +86,23 @@ export const AddTask = ({ isTemporary, temporaryDate }) => {
       <button onClick={clearVal}>clear</button>
       <button
         onClick={() =>
-          addTask({
-            variables: {
-              input: {
-                name: val,
-                limitDate: date ? date.toISOString() : null,
-                isTemporary: isTemporary,
-              },
-            },
-          })
+          isTemporary
+            ? addShortTask({
+                variables: {
+                  input: {
+                    name: val,
+                    expirationDate: date.toISOString(),
+                  },
+                },
+              })
+            : addTask({
+                variables: {
+                  input: {
+                    name: val,
+                    limitDate: date ? date.toISOString() : null,
+                  },
+                },
+              })
         }
       >
         add Task
