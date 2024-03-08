@@ -4,7 +4,7 @@ import UserAccount from "./components/UserAccount";
 import TimeLine from "./components/TimeLine";
 import EverydayTask from "./components/EverydayTask";
 import TaskList from "./components/TaskList";
-import Menu from "./components/Menu";
+import { Menu } from "./components/Menu";
 import { Login } from "./components/Login";
 import { SignUp } from "./components/SignUp";
 import PrivateRoute from "./components/PrivateRoute";
@@ -25,7 +25,7 @@ const createApolloClient = (token) => {
     return {
       headers: {
         ...headers,
-        "authorization": token ? token : "",
+        authorization: token ? token : "",
       },
     };
   });
