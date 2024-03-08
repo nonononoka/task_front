@@ -27,6 +27,16 @@ const EverydayTask = () => {
     }
   `;
 
+  const REMOVE_EACH_TASK_MUTATION = gql`
+    mutation RemoveEachTask($input: RemoveEachTaskInput!) {
+      removeEachTask(input: $input)
+    }
+  `;
+
+  const [removeEachTask] = useMutation(REMOVE_EACH_TASK_MUTATION, {
+    refetchQueries: [{ query: ALL_REGISTERED_SHORT_TASKS }],
+  });
+
   const CHANGE_IS_COMPLETED = gql`
     mutation ChangeCompleted($input: ChangeCompletedInput!) {
       changeCompleted(input: $input)
@@ -90,6 +100,20 @@ const EverydayTask = () => {
               }
             />
             {task.priority && <p>priority:{task.priority}</p>}
+            <button
+              onClick={() =>
+                removeEachTask({
+                  variables: {
+                    input: {
+                      id: task.id,
+                      isShort: true,
+                    },
+                  },
+                })
+              }
+            >
+              delete
+            </button>
           </p>
         ))}
         <div>
@@ -118,6 +142,20 @@ const EverydayTask = () => {
               }
             />
             {task.priority && <p>priority:{task.priority}</p>}
+            <button
+              onClick={() =>
+                removeEachTask({
+                  variables: {
+                    input: {
+                      id: task.id,
+                      isShort: true,
+                    },
+                  },
+                })
+              }
+            >
+              delete
+            </button>
           </p>
         ))}
         <div>
@@ -146,6 +184,20 @@ const EverydayTask = () => {
               }
             />
             {task.priority && <p>priority:{task.priority}</p>}
+            <button
+              onClick={() =>
+                removeEachTask({
+                  variables: {
+                    input: {
+                      id: task.id,
+                      isShort: true,
+                    },
+                  },
+                })
+              }
+            >
+              delete
+            </button>
           </p>
         ))}
         <div>

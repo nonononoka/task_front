@@ -8,6 +8,12 @@ const TaskList = () => {
     }
   `;
 
+  const REMOVE_EACH_TASK_MUTATION = gql`
+    mutation RemoveEachTask($input: RemoveEachTaskInput!) {
+      removeEachTask(input: $input)
+    }
+  `;
+
   const ALL_TASKS = gql`
     query AllTasks {
       allRegisteredTasks {
@@ -27,6 +33,10 @@ const TaskList = () => {
   `;
 
   const [changeCompleted] = useMutation(CHANGE_IS_COMPLETED, {
+    refetchQueries: [{ query: ALL_TASKS }],
+  });
+
+  const [removeEachTask] = useMutation(REMOVE_EACH_TASK_MUTATION, {
     refetchQueries: [{ query: ALL_TASKS }],
   });
 
@@ -69,6 +79,14 @@ const TaskList = () => {
             />
             {task.limitDate && <p>limit:{task.limitDate.split("T")[0]}</p>}
             {task.priority && <p>priority:{task.priority}</p>}
+            <button onClick = {() => removeEachTask({
+              variables: {
+                input: {
+                  id: task.id,
+                  isShort:false
+                }
+              }
+            })}>delete</button>
           </p>
         ))}
       </div>
