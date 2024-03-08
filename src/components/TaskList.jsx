@@ -22,6 +22,7 @@ const TaskList = () => {
         name
         isCompleted
         priority
+        category
       }
     }
   `;
@@ -79,6 +80,7 @@ const TaskList = () => {
             />
             {task.limitDate && <p>limit:{task.limitDate.split("T")[0]}</p>}
             {task.priority && <p>priority:{task.priority}</p>}
+            {task.category && <p>category:{task.category}</p>}
             <button onClick = {() => removeEachTask({
               variables: {
                 input: {

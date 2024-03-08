@@ -100,6 +100,7 @@ const EverydayTask = () => {
               }
             />
             {task.priority && <p>priority:{task.priority}</p>}
+            {task.category && <p>category:{task.category}</p>}
             <button
               onClick={() =>
                 removeEachTask({
@@ -142,6 +143,7 @@ const EverydayTask = () => {
               }
             />
             {task.priority && <p>priority:{task.priority}</p>}
+            {task.category && <p>category:{task.category}</p>}
             <button
               onClick={() =>
                 removeEachTask({
@@ -184,6 +186,7 @@ const EverydayTask = () => {
               }
             />
             {task.priority && <p>priority:{task.priority}</p>}
+            {task.category && <p>category:{task.category}</p>}
             <button
               onClick={() =>
                 removeEachTask({

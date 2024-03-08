@@ -1,4 +1,4 @@
-import { gql, useMutation } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useState } from "react";
@@ -43,6 +43,14 @@ export const AddTaskModal = ({
     }
   `;
 
+  const ALL_CATEGORIES = gql`
+    query AllCategories {
+      allCategories {
+        category
+      }
+    }
+  `;
+
   const ALL_REGISTERED_SHORT_TASKS = gql`
     query AllTasks {
       allRegisteredShortTasks {
@@ -53,12 +61,12 @@ export const AddTaskModal = ({
       }
     }
   `;
+  const { data, error, loading } = useQuery(ALL_CATEGORIES);
 
   const [date, setDate] = useState(temporaryDate);
+  const [category, setCategory] = useState(null);
   const [priority, setPriority] = useState("HIGH");
   const [val, setVal] = useState("");
-
-  const clearVal = () => setVal("");
 
   const [addTask] = useMutation(ADD_TASK_MUTATION, {
     refetchQueries: [{ query: ALL_TASKS }],
@@ -67,7 +75,9 @@ export const AddTaskModal = ({
   const [addShortTask] = useMutation(ADD_SHORT_TASK_MUTATION, {
     refetchQueries: [{ query: ALL_REGISTERED_SHORT_TASKS }],
   });
-
+  if (error || loading) {
+    return <></>;
+  }
   return (
     <div className="modal">
       <div className="modal__content">
@@ -93,6 +103,11 @@ export const AddTaskModal = ({
           </>
         )}
         <div>
+        <input
+          placeholder="add Category"
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+        />
           <select
             value={priority}
             onChange={(e) => setPriority(e.target.value)}
@@ -101,6 +116,20 @@ export const AddTaskModal = ({
             <option value="MIDDLE">MIDDLE</option>
             <option value="LOW">LOW</option>
           </select>
+        </div>
+        <div>
+          {data.allCategories.length >= 1 && (
+            <select
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+            >
+              {data.allCategories.map((category) => (
+                <option key={category.category} value={category.category}>
+                  {category.category}
+                </option>
+              ))}
+            </select>
+          )}
         </div>
         <button onClick={handleCloseClick}>back</button>
         <button
@@ -113,6 +142,7 @@ export const AddTaskModal = ({
                       name: val,
                       expirationDate: formatISO(temporaryDate),
                       priority: priority,
+                      category: category
                     },
                   },
                 })
@@ -122,6 +152,7 @@ export const AddTaskModal = ({
                       name: val,
                       limitDate: date ? date.toISOString() : null,
                       priority: priority,
+                      category: category
                     },
                   },
                 });
