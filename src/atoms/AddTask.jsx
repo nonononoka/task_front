@@ -2,6 +2,7 @@ import { gql, useMutation } from "@apollo/client";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useState } from "react";
+import { formatISO } from "date-fns";
 
 export const AddTask = ({ isTemporary, temporaryDate }) => {
   const ADD_TASK_MUTATION = gql`
@@ -87,11 +88,12 @@ export const AddTask = ({ isTemporary, temporaryDate }) => {
       <button
         onClick={() =>
           isTemporary
-            ? addShortTask({
+            ? 
+            addShortTask({
                 variables: {
                   input: {
                     name: val,
-                    expirationDate: date.toISOString(),
+                    expirationDate: formatISO(temporaryDate),
                   },
                 },
               })
