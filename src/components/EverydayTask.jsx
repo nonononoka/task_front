@@ -4,11 +4,12 @@ import { formatISO } from "date-fns";
 
 //追加分
 import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
+import Grid from "@mui/material/Grid";
 import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
+import IconButton from "@mui/material/IconButton";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const EverydayTask = () => {
   const Today = new Date();
@@ -83,177 +84,119 @@ const EverydayTask = () => {
     return isDateMatched(task.expirationDate, formatISO(Tomorrow), task);
   });
 
+  const yesterdayObj = {
+    title: "Yesterday",
+    task: yesterday_task,
+    sx: {
+      width: "200px",
+      height: "200px",
+      overflow: "auto",
+      backgroundColor: "lightblue", // 背景色を指定
+    },
+    font_size: "14px",
+    item_xs0: "8px",
+    item_xs1: "4px",
+  };
+
+  const todayObj = {
+    title: "Today",
+    task: today_task,
+    sx: {
+      width: "300px",
+      height: "300px",
+      overflow: "auto",
+      backgroundColor: "lightyellow", // 背景色を指定
+    },
+    font_size: "21px",
+    item_xs0: "7px",
+    item_xs1: "5px",
+  };
+
+  const tomorrowObj = {
+    title: "Tomorrow",
+    task: tomorrow_task,
+    sx: {
+      width: "200px",
+      height: "200px",
+      overflow: "auto",
+      backgroundColor: "lightblue", // 背景色を指定
+    },
+    font_size: "14px",
+    item_xs0: "8px",
+    item_xs1: "4px",
+  };
+
   return (
     <>
-      <h1>Everyday Task</h1>
       <div>
-        <Stack direction="row" spacing={2}>
-          {/* Yestarday */}
-          <Card sx={{ minWidth: 275 }}>
-            <CardContent>
-              <Typography
-                sx={{ fontSize: 14 }}
-                color="text.secondary"
-                gutterBottom
-              >
-                Yestarday
-              </Typography>
-            </CardContent>
-            {yesterday_task.map((task) => (
-              <p key={task.id}>
-                <label htmlFor={task.id}>{task.name}</label>
-                <input
-                  id={task.id}
-                  type="checkbox"
-                  checked={task.isCompleted}
-                  key={task.id}
-                  onChange={() =>
-                    changeCompleted({
-                      variables: {
-                        input: {
-                          id: task.id,
-                          isShort: true,
-                          isComplete: !task.isCompleted,
-                        },
-                      },
-                    })
-                  }
-                />
-                {task.priority && <p>priority:{task.priority}</p>}
-                {task.category && <p>category:{task.category}</p>}
-                <button
-                  onClick={() =>
-                    removeEachTask({
-                      variables: {
-                        input: {
-                          id: task.id,
-                          isShort: true,
-                        },
-                      },
-                    })
-                  }
-                >
-                  delete
-                </button>
-              </p>
-            ))}
-            <div>
-              <AddTask isTemporary={true} temporaryDate={Yesterday} />
-            </div>
-            {/* <CardActions>
-              <Button size="small">Learn More</Button>
-            </CardActions> */}
-          </Card>
-          {/* Today */}
-          <Card sx={{ minWidth: 275 }}>
-            <CardContent>
-              <Typography
-                sx={{ fontSize: 14 }}
-                color="text.secondary"
-                gutterBottom
-              >
-                Today
-              </Typography>
-            </CardContent>
-            {today_task.map((task) => (
-              <p key={task.id}>
-                <label htmlFor={task.id}>{task.name}</label>
-                <input
-                  id={task.id}
-                  type="checkbox"
-                  checked={task.isCompleted}
-                  onChange={() =>
-                    changeCompleted({
-                      variables: {
-                        input: {
-                          id: task.id,
-                          isShort: true,
-                          isComplete: !task.isCompleted,
-                        },
-                      },
-                    })
-                  }
-                />
-                {task.priority && <p>priority:{task.priority}</p>}
-                {task.category && <p>category:{task.category}</p>}
-                <button
-                  onClick={() =>
-                    removeEachTask({
-                      variables: {
-                        input: {
-                          id: task.id,
-                          isShort: true,
-                        },
-                      },
-                    })
-                  }
-                >
-                  delete
-                </button>
-              </p>
-            ))}
-            <div>
-              <AddTask isTemporary={true} temporaryDate={Today} />
-            </div>
-            {/* <CardActions>
-              <Button size="small">Learn More</Button>
-            </CardActions> */}
-          </Card>
-          {/* Tommorow */}
-          <Card sx={{ minWidth: 275 }}>
-            <CardContent>
-              <Typography
-                sx={{ fontSize: 14 }}
-                color="text.secondary"
-                gutterBottom
-              >
-                Tomorrow
-              </Typography>
-            </CardContent>
-            {tomorrow_task.map((task) => (
-              <p key={task.id}>
-                <label htmlFor={task.id}>{task.name}</label>
-                <input
-                  id={task.id}
-                  type="checkbox"
-                  checked={task.isCompleted}
-                  onChange={() =>
-                    changeCompleted({
-                      variables: {
-                        input: {
-                          id: task.id,
-                          isShort: true,
-                          isComplete: !task.isCompleted,
-                        },
-                      },
-                    })
-                  }
-                />
-                {task.priority && <p>priority:{task.priority}</p>}
-                {task.category && <p>category:{task.category}</p>}
-                <button
-                  onClick={() =>
-                    removeEachTask({
-                      variables: {
-                        input: {
-                          id: task.id,
-                          isShort: true,
-                        },
-                      },
-                    })
-                  }
-                >
-                  delete
-                </button>
-              </p>
-            ))}
-            <div>
-              <AddTask isTemporary={true} temporaryDate={Tomorrow} />
-            </div>
-            {/* <CardActions>
-              <Button size="small">Learn More</Button>
-            </CardActions> */}
-          </Card>
+        <Stack
+          direction="row"
+          spacing={2} //cardの間隔
+          justifyContent="center" //card列を中央に配置
+          marginTop="50px"
+        >
+          {[yesterdayObj, todayObj, tomorrowObj].map((obj) => (
+            <>
+              <Card sx={obj.sx}>
+                <CardContent>
+                  <Grid container alignItems="center">
+                    <Grid item xs={obj.item_xs0}>
+                      <Typography
+                        sx={obj.font_size}
+                        color="text.secondary"
+                        gutterBottom
+                      >
+                        {obj.title}
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={obj.item_xs1}>
+                      <div>
+                        <AddTask isTemporary={true} temporaryDate={Yesterday} />
+                      </div>
+                    </Grid>
+                  </Grid>
+                </CardContent>
+                {obj.task.map((task) => (
+                  <p key={task.id}>
+                    <label htmlFor={task.id}>{task.name}</label>
+                    <input
+                      id={task.id}
+                      type="checkbox"
+                      checked={task.isCompleted}
+                      onChange={() =>
+                        changeCompleted({
+                          variables: {
+                            input: {
+                              id: task.id,
+                              isShort: true,
+                              isComplete: !task.isCompleted,
+                            },
+                          },
+                        })
+                      }
+                    />
+                    {task.priority && <p>priority:{task.priority}</p>}
+                    {task.category && <p>category:{task.category}</p>}
+                    <IconButton
+                      aria-label="addTask"
+                      onClick={() =>
+                        removeEachTask({
+                          variables: {
+                            input: {
+                              id: task.id,
+                              isShort: true,
+                            },
+                          },
+                        })
+                      }
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  </p>
+                ))}
+              </Card>
+            </>
+          ))}
         </Stack>
       </div>
     </>
