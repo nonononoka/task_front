@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate ,useLocation} from "react-router-dom";
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
@@ -20,6 +20,7 @@ import { signOut } from "firebase/auth";
 import { auth } from "../firebase.js";
 
 export const Menu = () => {
+  const location = useLocation();
   const navigate = useNavigate();
 
   const onClickUserAccount = () => {
@@ -47,7 +48,6 @@ export const Menu = () => {
   };
 
   const DrawerList = (
-
       <Box
         sx={{ width: 250 }}
         role="presentation"
@@ -55,7 +55,7 @@ export const Menu = () => {
       >
         <List>
           {[
-            ["Top", onClickEverydayTask],
+            ["Home", onClickEverydayTask],
             ["Task List", onClickTaskList],
             ["Account", onClickUserAccount],
           ].map((menu, index) => (
@@ -90,7 +90,9 @@ export const Menu = () => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Home
+            {location.pathname == "/" && "Home"}
+            {location.pathname == "/TaskList" && "Task List"}
+            {location.pathname == "/UserAccount" && "Account"}
           </Typography>
           <Button color="inherit" onClick = {logout}>Logout</Button>
         </Toolbar>
