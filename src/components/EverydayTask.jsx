@@ -2,6 +2,14 @@ import { AddTask } from "../atoms/AddTask";
 import { gql, useQuery, useMutation } from "@apollo/client";
 import { formatISO } from "date-fns";
 
+//追加分
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import Stack from "@mui/material/Stack";
+
 const EverydayTask = () => {
   const Today = new Date();
   const Yesterday = new Date(
@@ -79,134 +87,174 @@ const EverydayTask = () => {
     <>
       <h1>Everyday Task</h1>
       <div>
-        <h2>yesterday</h2>
-        {yesterday_task.map((task) => (
-          <p key={task.id}>
-            <label htmlFor={task.id}>{task.name}</label>
-            <input
-              id={task.id}
-              type="checkbox"
-              checked={task.isCompleted}
-              key={task.id}
-              onChange={() =>
-                changeCompleted({
-                  variables: {
-                    input: {
-                      id: task.id,
-                      isShort: true,
-                      isComplete: !task.isCompleted,
-                    },
-                  },
-                })
-              }
-            />
-            {task.priority && <p>priority:{task.priority}</p>}
-            {task.category && <p>category:{task.category}</p>}
-            <button
-              onClick={() =>
-                removeEachTask({
-                  variables: {
-                    input: {
-                      id: task.id,
-                      isShort: true,
-                    },
-                  },
-                })
-              }
-            >
-              delete
-            </button>
-          </p>
-        ))}
-        <div>
-          <AddTask isTemporary={true} temporaryDate={Yesterday} />
-        </div>
-      </div>
-      <div>
-        <h2>today</h2>
-        {today_task.map((task) => (
-          <p key={task.id}>
-            <label htmlFor={task.id}>{task.name}</label>
-            <input
-              id={task.id}
-              type="checkbox"
-              checked={task.isCompleted}
-              onChange={() =>
-                changeCompleted({
-                  variables: {
-                    input: {
-                      id: task.id,
-                      isShort: true,
-                      isComplete: !task.isCompleted,
-                    },
-                  },
-                })
-              }
-            />
-            {task.priority && <p>priority:{task.priority}</p>}
-            {task.category && <p>category:{task.category}</p>}
-            <button
-              onClick={() =>
-                removeEachTask({
-                  variables: {
-                    input: {
-                      id: task.id,
-                      isShort: true,
-                    },
-                  },
-                })
-              }
-            >
-              delete
-            </button>
-          </p>
-        ))}
-        <div>
-          <AddTask isTemporary={true} temporaryDate={Today} />
-        </div>
-      </div>
-      <div>
-        <h2>tomorrow</h2>
-        {tomorrow_task.map((task) => (
-          <p key={task.id}>
-            <label htmlFor={task.id}>{task.name}</label>
-            <input
-              id={task.id}
-              type="checkbox"
-              checked={task.isCompleted}
-              onChange={() =>
-                changeCompleted({
-                  variables: {
-                    input: {
-                      id: task.id,
-                      isShort: true,
-                      isComplete: !task.isCompleted,
-                    },
-                  },
-                })
-              }
-            />
-            {task.priority && <p>priority:{task.priority}</p>}
-            {task.category && <p>category:{task.category}</p>}
-            <button
-              onClick={() =>
-                removeEachTask({
-                  variables: {
-                    input: {
-                      id: task.id,
-                      isShort: true,
-                    },
-                  },
-                })
-              }
-            >
-              delete
-            </button>
-          </p>
-        ))}
-        <div>
-          <AddTask isTemporary={true} temporaryDate={Tomorrow} />
-        </div>
+        <Stack direction="row" spacing={2}>
+          {/* Yestarday */}
+          <Card sx={{ minWidth: 275 }}>
+            <CardContent>
+              <Typography
+                sx={{ fontSize: 14 }}
+                color="text.secondary"
+                gutterBottom
+              >
+                Yestarday
+              </Typography>
+            </CardContent>
+            {yesterday_task.map((task) => (
+              <p key={task.id}>
+                <label htmlFor={task.id}>{task.name}</label>
+                <input
+                  id={task.id}
+                  type="checkbox"
+                  checked={task.isCompleted}
+                  key={task.id}
+                  onChange={() =>
+                    changeCompleted({
+                      variables: {
+                        input: {
+                          id: task.id,
+                          isShort: true,
+                          isComplete: !task.isCompleted,
+                        },
+                      },
+                    })
+                  }
+                />
+                {task.priority && <p>priority:{task.priority}</p>}
+                {task.category && <p>category:{task.category}</p>}
+                <button
+                  onClick={() =>
+                    removeEachTask({
+                      variables: {
+                        input: {
+                          id: task.id,
+                          isShort: true,
+                        },
+                      },
+                    })
+                  }
+                >
+                  delete
+                </button>
+              </p>
+            ))}
+            <div>
+              <AddTask isTemporary={true} temporaryDate={Yesterday} />
+            </div>
+            {/* <CardActions>
+              <Button size="small">Learn More</Button>
+            </CardActions> */}
+          </Card>
+          {/* Today */}
+          <Card sx={{ minWidth: 275 }}>
+            <CardContent>
+              <Typography
+                sx={{ fontSize: 14 }}
+                color="text.secondary"
+                gutterBottom
+              >
+                Today
+              </Typography>
+            </CardContent>
+            {today_task.map((task) => (
+              <p key={task.id}>
+                <label htmlFor={task.id}>{task.name}</label>
+                <input
+                  id={task.id}
+                  type="checkbox"
+                  checked={task.isCompleted}
+                  onChange={() =>
+                    changeCompleted({
+                      variables: {
+                        input: {
+                          id: task.id,
+                          isShort: true,
+                          isComplete: !task.isCompleted,
+                        },
+                      },
+                    })
+                  }
+                />
+                {task.priority && <p>priority:{task.priority}</p>}
+                {task.category && <p>category:{task.category}</p>}
+                <button
+                  onClick={() =>
+                    removeEachTask({
+                      variables: {
+                        input: {
+                          id: task.id,
+                          isShort: true,
+                        },
+                      },
+                    })
+                  }
+                >
+                  delete
+                </button>
+              </p>
+            ))}
+            <div>
+              <AddTask isTemporary={true} temporaryDate={Today} />
+            </div>
+            {/* <CardActions>
+              <Button size="small">Learn More</Button>
+            </CardActions> */}
+          </Card>
+          {/* Tommorow */}
+          <Card sx={{ minWidth: 275 }}>
+            <CardContent>
+              <Typography
+                sx={{ fontSize: 14 }}
+                color="text.secondary"
+                gutterBottom
+              >
+                Tomorrow
+              </Typography>
+            </CardContent>
+            {tomorrow_task.map((task) => (
+              <p key={task.id}>
+                <label htmlFor={task.id}>{task.name}</label>
+                <input
+                  id={task.id}
+                  type="checkbox"
+                  checked={task.isCompleted}
+                  onChange={() =>
+                    changeCompleted({
+                      variables: {
+                        input: {
+                          id: task.id,
+                          isShort: true,
+                          isComplete: !task.isCompleted,
+                        },
+                      },
+                    })
+                  }
+                />
+                {task.priority && <p>priority:{task.priority}</p>}
+                {task.category && <p>category:{task.category}</p>}
+                <button
+                  onClick={() =>
+                    removeEachTask({
+                      variables: {
+                        input: {
+                          id: task.id,
+                          isShort: true,
+                        },
+                      },
+                    })
+                  }
+                >
+                  delete
+                </button>
+              </p>
+            ))}
+            <div>
+              <AddTask isTemporary={true} temporaryDate={Tomorrow} />
+            </div>
+            {/* <CardActions>
+              <Button size="small">Learn More</Button>
+            </CardActions> */}
+          </Card>
+        </Stack>
       </div>
     </>
   );
