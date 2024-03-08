@@ -22,6 +22,7 @@ const EverydayTask = () => {
         expirationDate
         name
         isCompleted
+        priority
       }
     }
   `;
@@ -69,7 +70,7 @@ const EverydayTask = () => {
       <div>
         <h2>yesterday</h2>
         {yesterday_task.map((task) => (
-          <>
+          <p key={task.id}>
             <label htmlFor={task.id}>{task.name}</label>
             <input
               id={task.id}
@@ -88,7 +89,8 @@ const EverydayTask = () => {
                 })
               }
             />
-          </>
+            {task.priority && <p>priority:{task.priority}</p>}
+          </p>
         ))}
         <div>
           <AddTask isTemporary={true} temporaryDate={Yesterday} />
@@ -115,6 +117,7 @@ const EverydayTask = () => {
                 })
               }
             />
+            {task.priority && <p>priority:{task.priority}</p>}
           </p>
         ))}
         <div>
@@ -142,6 +145,7 @@ const EverydayTask = () => {
                 })
               }
             />
+            {task.priority && <p>priority:{task.priority}</p>}
           </p>
         ))}
         <div>

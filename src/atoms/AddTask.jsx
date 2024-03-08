@@ -33,6 +33,7 @@ export const AddTask = ({ isTemporary, temporaryDate }) => {
         id
         limitDate
         name
+        isCompleted
       }
     }
   `;
@@ -49,6 +50,7 @@ export const AddTask = ({ isTemporary, temporaryDate }) => {
   `;
 
   const [date, setDate] = useState(temporaryDate);
+  const [priority, setPriority] = useState("");
   const [val, setVal] = useState("");
 
   const clearVal = () => setVal("");
@@ -84,16 +86,24 @@ export const AddTask = ({ isTemporary, temporaryDate }) => {
           </div>
         </>
       )}
+      <div>
+        <input list="priority" onChange={(e) => setPriority(e.target.value)} />
+        <datalist id="priority">
+          <option value="HIGH"></option>
+          <option value="MIDDLE"></option>
+          <option value="LOW"></option>
+        </datalist>
+      </div>
       <button onClick={clearVal}>clear</button>
       <button
         onClick={() =>
           isTemporary
-            ? 
-            addShortTask({
+            ? addShortTask({
                 variables: {
                   input: {
                     name: val,
                     expirationDate: formatISO(temporaryDate),
+                    priority: priority,
                   },
                 },
               })
@@ -102,6 +112,7 @@ export const AddTask = ({ isTemporary, temporaryDate }) => {
                   input: {
                     name: val,
                     limitDate: date ? date.toISOString() : null,
+                    priority: priority,
                   },
                 },
               })

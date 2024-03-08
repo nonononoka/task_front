@@ -15,6 +15,7 @@ const TaskList = () => {
         limitDate
         name
         isCompleted
+        priority
       }
     }
   `;
@@ -47,7 +48,7 @@ const TaskList = () => {
       <AddTask temporaryDate={Today} isTemporary={false} />
       <div>
         {data.allRegisteredTasks.map((task) => (
-          <>
+          <p key={task.id}>
             <label htmlFor={task.id}>{task.name}</label>
             <input
               id={task.id}
@@ -67,7 +68,8 @@ const TaskList = () => {
               }
             />
             {task.limitDate && <p>limit:{task.limitDate.split("T")[0]}</p>}
-          </>
+            {task.priority && <p>priority:{task.priority}</p>}
+          </p>
         ))}
       </div>
       <button onClick={() => removeAllTasks()}>delete all tasks</button>
