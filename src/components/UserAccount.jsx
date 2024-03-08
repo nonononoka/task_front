@@ -16,7 +16,6 @@ const UserAccount = () => {
   };
   return (
     <>
-      <h1>account</h1>
       <p>email: {email}</p>
       <button onClick={logout}>ログアウト</button>
     </>
