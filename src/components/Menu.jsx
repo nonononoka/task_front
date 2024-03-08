@@ -1,6 +1,4 @@
 import { useNavigate } from "react-router-dom";
-
-//追加分
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
@@ -13,41 +11,13 @@ import ListItemText from "@mui/material/ListItemText";
 import TopIcon from "@mui/icons-material/Home";
 import TaskIcon from "@mui/icons-material/Task";
 import AccountIcon from "@mui/icons-material/AccountBox";
-
-// const Menu = () => {
-//   const navigate = useNavigate();
-
-//   const onClickUserAccount = () => {
-//     navigate("/UserAccount");
-//   };
-
-//   const onClickEverydayTask = () => {
-//     navigate("/");
-//   };
-
-//   const onClickTaskList = () => {
-//     navigate("/TaskList");
-//   };
-
-//   const onClickTimeLine = () => {
-//     navigate("/TimeLine");
-//   };
-
-//   return (
-//     <div className="Home">
-//       <h1>Menu</h1>
-//       <button onClick={onClickUserAccount}>Account</button>
-//       <p></p>
-//       <button onClick={onClickTimeLine}>Timeline</button>
-//       <p></p>
-//       <button onClick={onClickEverydayTask}>everyday task</button>
-//       <p></p>
-//       <button onClick={onClickTaskList}>task list</button>
-//     </div>
-//   );
-// };
-
-// export default Menu;
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import IconButton from "@mui/material/IconButton";
+import MenuIcon from "@mui/icons-material/Menu";
+import { signOut } from "firebase/auth";
+import { auth } from "../firebase.js";
 
 export const Menu = () => {
   const navigate = useNavigate();
@@ -70,31 +40,67 @@ export const Menu = () => {
     setOpen(newOpen);
   };
 
+  const logout = async () => {
+    await signOut(auth);
+    //return back to the authentication page
+    navigate("/");
+  };
+
   const DrawerList = (
-    <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
-      <List>
-        {["Top", "Task List", "Account"].map((text, index) => (
-          <ListItem key={text} disavlePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index === 0 && <TopIcon />}
-                {index === 1 && <TaskIcon />}
-                {index === 2 && <AccountIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-    </Box>
+
+      <Box
+        sx={{ width: 250 }}
+        role="presentation"
+        onClick={toggleDrawer(false)}
+      >
+        <List>
+          {[
+            ["Top", onClickEverydayTask],
+            ["Task List", onClickTaskList],
+            ["Account", onClickUserAccount],
+          ].map((menu, index) => (
+            <ListItem key={menu[0]} disavlePadding>
+              <ListItemButton onClick={menu[1]}>
+                <ListItemIcon>
+                  {index === 0 && <TopIcon />}
+                  {index === 1 && <TaskIcon />}
+                  {index === 2 && <AccountIcon />}
+                </ListItemIcon>
+                <ListItemText primary={menu[0]} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+      </Box>
   );
 
   return (
+    <>
+    <Box sx={{ flexGrow: 1 }}>
+      <AppBar position="static">
+        <Toolbar>
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            sx={{ mr: 2 }}
+            onClick={toggleDrawer(true)}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            Home
+          </Typography>
+          <Button color="inherit" onClick = {logout}>Logout</Button>
+        </Toolbar>
+      </AppBar>
+    </Box>
     <div>
-      <Button onClick={toggleDrawer(true)}>Menu</Button>
       <Drawer open={open} onClose={toggleDrawer(false)}>
         {DrawerList}
       </Drawer>
     </div>
+    </>
   );
 };
