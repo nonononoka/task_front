@@ -5,7 +5,6 @@ import { auth } from "../firebase.js";
 import { onAuthStateChanged } from "firebase/auth";
 
 const PrivateRoute = ({ children }) => {
-  // const [authChecked, setAuthChecked] = useState(false);
   const { user, setUser } = useContext(AuthContext);
   const [authChecked, setAuthChecked] = useState(false);
 

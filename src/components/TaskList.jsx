@@ -14,9 +14,20 @@ const TaskList = () => {
         id
         limitDate
         name
+        isCompleted
       }
     }
   `;
+
+  const CHANGE_IS_COMPLETED = gql`
+    mutation ChangeCompleted($input: ChangeCompletedInput!) {
+      changeCompleted(input: $input)
+    }
+  `;
+
+  const [changeCompleted] = useMutation(CHANGE_IS_COMPLETED, {
+    refetchQueries: [{ query: ALL_TASKS }],
+  });
 
   const { loading, data, error } = useQuery(ALL_TASKS);
 
@@ -37,10 +48,25 @@ const TaskList = () => {
       <div>
         {data.allRegisteredTasks.map((task) => (
           <>
-            <p key={task.id}>name: {task.name} </p>
-            {task.limitDate && (
-              <p key={task.id}>limit:{task.limitDate.split("T")[0]}</p>
-            )}
+            <label htmlFor={task.id}>{task.name}</label>
+            <input
+              id={task.id}
+              type="checkbox"
+              checked={task.isCompleted}
+              key={task.id}
+              onChange={() =>
+                changeCompleted({
+                  variables: {
+                    input: {
+                      id: task.id,
+                      isShort: false,
+                      isComplete: !task.isCompleted,
+                    },
+                  },
+                })
+              }
+            />
+            {task.limitDate && <p>limit:{task.limitDate.split("T")[0]}</p>}
           </>
         ))}
       </div>
