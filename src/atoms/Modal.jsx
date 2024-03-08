@@ -69,15 +69,19 @@ export const AddTaskModal = ({
   const [val, setVal] = useState("");
 
   const [addTask] = useMutation(ADD_TASK_MUTATION, {
-    refetchQueries: [{ query: ALL_TASKS }],
+    refetchQueries: [{ query: ALL_TASKS }, { query: ALL_CATEGORIES }],
   });
 
   const [addShortTask] = useMutation(ADD_SHORT_TASK_MUTATION, {
-    refetchQueries: [{ query: ALL_REGISTERED_SHORT_TASKS }],
+    refetchQueries: [
+      { query: ALL_REGISTERED_SHORT_TASKS },
+      { query: ALL_CATEGORIES },
+    ],
   });
   if (error || loading) {
     return <></>;
   }
+  console.log(data);
   return (
     <div className="modal">
       <div className="modal__content">
@@ -103,11 +107,11 @@ export const AddTaskModal = ({
           </>
         )}
         <div>
-        <input
-          placeholder="add Category"
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-        />
+          <input
+            placeholder="add Category"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+          />
           <select
             value={priority}
             onChange={(e) => setPriority(e.target.value)}
@@ -142,7 +146,7 @@ export const AddTaskModal = ({
                       name: val,
                       expirationDate: formatISO(temporaryDate),
                       priority: priority,
-                      category: category
+                      category: category,
                     },
                   },
                 })
@@ -152,7 +156,7 @@ export const AddTaskModal = ({
                       name: val,
                       limitDate: date ? date.toISOString() : null,
                       priority: priority,
-                      category: category
+                      category: category,
                     },
                   },
                 });

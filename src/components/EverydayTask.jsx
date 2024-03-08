@@ -23,6 +23,7 @@ const EverydayTask = () => {
         name
         isCompleted
         priority
+        category
       }
     }
   `;
