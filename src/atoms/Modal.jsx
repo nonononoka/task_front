@@ -62,6 +62,11 @@ export const AddTaskModal = ({
     }
   `;
   const { data, error, loading } = useQuery(ALL_CATEGORIES);
+  const {
+    data: taskData,
+    error: taskError,
+    loading: taskLoading,
+  } = useQuery(ALL_TASKS);
 
   const [date, setDate] = useState(temporaryDate);
   const [category, setCategory] = useState(null);
@@ -81,15 +86,47 @@ export const AddTaskModal = ({
   if (error || loading) {
     return <></>;
   }
-  console.log(data);
+  if (taskError || taskLoading) {
+    return <></>;
+  }
+
   return (
     <div className="modal">
       <div className="modal__content">
-        <input
-          placeholder="your task"
-          value={val}
-          onChange={(e) => setVal(e.target.value)}
-        />
+        {isTemporary && (
+          <>
+            {taskData.allRegisteredTasks.map((task) => {
+              return (
+                <>
+                  <input
+                    id={task.id}
+                    type="checkbox"
+                    value={task.name}
+                    onChange={() => setVal(task.name)}
+                  />
+                  <label htmlFor={task.id}>
+                    {task.limitDate}:{task.name}
+                  </label>
+                  <select
+                    value={priority}
+                    onChange={(e) => setPriority(e.target.value)}
+                  >
+                    <option value="HIGH">HIGH</option>
+                    <option value="MIDDLE">MIDDLE</option>
+                    <option value="LOW">LOW</option>
+                  </select>
+                </>
+              );
+            })}
+          </>
+        )}
+        <div>
+          <input
+            placeholder="your task"
+            value={val}
+            onChange={(e) => setVal(e.target.value)}
+          />
+        </div>
         {!isTemporary && (
           <>
             <div>
