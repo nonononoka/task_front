@@ -10,6 +10,11 @@ import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
 
 const EverydayTask = () => {
   const Today = new Date();
@@ -88,10 +93,10 @@ const EverydayTask = () => {
     title: "Yesterday",
     task: yesterday_task,
     sx: {
-      width: "200px",
+      width: "300px",
       height: "200px",
       overflow: "auto",
-      backgroundColor: "lightblue", // 背景色を指定
+      backgroundColor: "white", // 背景色を指定
     },
     font_size: "14px",
     item_xs0: "8px",
@@ -102,10 +107,10 @@ const EverydayTask = () => {
     title: "Today",
     task: today_task,
     sx: {
-      width: "300px",
+      width: "400px",
       height: "300px",
       overflow: "auto",
-      backgroundColor: "lightyellow", // 背景色を指定
+      backgroundColor: "white", // 背景色を指定
     },
     font_size: "21px",
     item_xs0: "7px",
@@ -116,10 +121,10 @@ const EverydayTask = () => {
     title: "Tomorrow",
     task: tomorrow_task,
     sx: {
-      width: "200px",
+      width: "300px",
       height: "200px",
       overflow: "auto",
-      backgroundColor: "lightblue", // 背景色を指定
+      backgroundColor: "white", // 背景色を指定
     },
     font_size: "14px",
     item_xs0: "8px",
@@ -141,11 +146,7 @@ const EverydayTask = () => {
                 <CardContent>
                   <Grid container alignItems="center">
                     <Grid item xs={obj.item_xs0}>
-                      <Typography
-                        sx={obj.font_size}
-                        color="text.secondary"
-                        gutterBottom
-                      >
+                      <Typography sx={obj.font_size} gutterBottom>
                         {obj.title}
                       </Typography>
                     </Grid>
@@ -156,44 +157,72 @@ const EverydayTask = () => {
                     </Grid>
                   </Grid>
                 </CardContent>
-                {obj.task.map((task) => (
-                  <p key={task.id}>
-                    <label htmlFor={task.id}>{task.name}</label>
-                    <input
-                      id={task.id}
-                      type="checkbox"
-                      checked={task.isCompleted}
-                      onChange={() =>
-                        changeCompleted({
-                          variables: {
-                            input: {
-                              id: task.id,
-                              isShort: true,
-                              isComplete: !task.isCompleted,
-                            },
-                          },
-                        })
-                      }
-                    />
-                    {task.priority && <p>priority:{task.priority}</p>}
-                    {task.category && <p>category:{task.category}</p>}
-                    <IconButton
-                      aria-label="addTask"
-                      onClick={() =>
-                        removeEachTask({
-                          variables: {
-                            input: {
-                              id: task.id,
-                              isShort: true,
-                            },
-                          },
-                        })
-                      }
-                    >
-                      <DeleteIcon />
-                    </IconButton>
-                  </p>
-                ))}
+                <List
+                  sx={{
+                    width: "100%",
+                    maxWidth: 360,
+                    // bgcolor: "background.paper",
+                  }}
+                >
+                  {obj.task.map((task) => {
+                    const labelId = `checkbox-list-label-${task}`;
+
+                    return (
+                      <ListItem
+                        key={task}
+                        secondaryAction={
+                          <IconButton
+                            aria-label="addTask"
+                            onClick={() =>
+                              removeEachTask({
+                                variables: {
+                                  input: {
+                                    id: task.id,
+                                    isShort: true,
+                                  },
+                                },
+                              })
+                            }
+                          >
+                            <DeleteIcon />
+                          </IconButton>
+                        }
+                        disablePadding
+                      >
+                        <ListItemButton
+                          role={undefined}
+                          onClick={() =>
+                            changeCompleted({
+                              variables: {
+                                input: {
+                                  id: task.id,
+                                  isShort: true,
+                                  isComplete: !task.isCompleted,
+                                },
+                              },
+                            })
+                          }
+                          dense
+                        >
+                          <ListItemIcon>
+                            {/* <Checkbox
+                              edge="start"
+                              checked={task.isCompleted}
+                              tabIndex={-1}
+                              disableRipple
+                              inputProps={{ "aria-labelledby": labelId }}
+                            /> */}
+                          </ListItemIcon>
+                          <ListItemText
+                            id={labelId}
+                            primary={task.name}
+                            style={{ color: "Red" }}
+                          />
+                        </ListItemButton>
+                      </ListItem>
+                    );
+                  })}
+                </List>
               </Card>
             </>
           ))}
