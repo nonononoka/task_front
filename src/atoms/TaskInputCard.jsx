@@ -18,8 +18,6 @@ export const TaskInputCard = ({
   setCategory,
   allCategories,
 }) => {
-
-    console.log("category", category)
   function getChipBackgroundColor(isSelected, priority) {
     switch (priority) {
       case "HIGH":

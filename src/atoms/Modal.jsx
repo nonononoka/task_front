@@ -46,6 +46,7 @@ export const AddTaskModal = ({ isTemporary, temporaryDate, onClose }) => {
         name
         isCompleted
         priority
+        category
       }
     }
   `;
@@ -111,7 +112,14 @@ export const AddTaskModal = ({ isTemporary, temporaryDate, onClose }) => {
             {taskData.allRegisteredTasks.map((task) => {
               return (
                 <SwiperSlide key={task.id}>
-                  <Card variant="outlined">
+                  <Card
+                    onClick={() => {
+                      setName(task.name);
+                      setSelectedPriority(task.priority);
+                      setCategory(task.category);
+                    }}
+                    variant="outlined"
+                  >
                     <TaskCard
                       priority={task.priority}
                       name={task.name}
