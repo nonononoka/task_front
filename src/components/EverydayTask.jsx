@@ -107,13 +107,14 @@ const EverydayTask = () => {
     task: yesterday_task,
     sx: {
       width: "25%",
-      height: "30%",
+      height: "350px",
       overflow: "auto",
       backgroundColor: "white", // 背景色を指定
     },
     font_size: "14px",
     item_xs0: "8px",
     item_xs1: "4px",
+    font_weight: "regular",
   };
 
   const todayObj = {
@@ -122,13 +123,14 @@ const EverydayTask = () => {
     task: today_task,
     sx: {
       width: "35%",
-      height: "40%",
+      height: "400px",
       overflow: "auto",
       backgroundColor: "white", // 背景色を指定
     },
     font_size: "21px",
     item_xs0: "7px",
     item_xs1: "5px",
+    font_weight: "bold",
   };
 
   const tomorrowObj = {
@@ -137,13 +139,14 @@ const EverydayTask = () => {
     task: tomorrow_task,
     sx: {
       width: "25%",
-      height: "40%",
+      height: "350px",
       overflow: "auto",
       backgroundColor: "white", // 背景色を指定
     },
     font_size: "14px",
     item_xs0: "8px",
     item_xs1: "4px",
+    font_weight: "regular",
   };
 
   return (
@@ -161,7 +164,13 @@ const EverydayTask = () => {
                 <CardContent>
                   <Grid container alignItems="center">
                     <Grid item xs={obj.item_xs0}>
-                      <Typography sx={obj.font_size} gutterBottom>
+                      <Typography
+                        style={{
+                          fontSize: obj.font_size,
+                          fontWeight: obj.font_weight,
+                        }}
+                        gutterBottom
+                      >
                         {obj.title}
                       </Typography>
                     </Grid>
@@ -171,37 +180,12 @@ const EverydayTask = () => {
                       </div>
                     </Grid>
                   </Grid>
-                  <List
-                    sx={{
-                      width: "100%",
-                      maxWidth: 360,
-                    }}
-                  >
+                  <List>
                     {obj.task.map((task) => {
                       const labelId = `chip-list-label-${task}`;
 
                       return (
-                        <ListItem
-                          key={task}
-                          secondaryAction={
-                            <IconButton
-                              aria-label="addTask"
-                              onClick={() =>
-                                removeEachTask({
-                                  variables: {
-                                    input: {
-                                      id: task.id,
-                                      isShort: true,
-                                    },
-                                  },
-                                })
-                              }
-                            >
-                              <DeleteIcon />
-                            </IconButton>
-                          }
-                          disablePadding
-                        >
+                        <ListItem key={task}>
                           <ListItemButton
                             role={undefined}
                             onClick={() =>
@@ -215,7 +199,10 @@ const EverydayTask = () => {
                                 },
                               })
                             }
-                            dense
+                            style={{
+                              color: "white",
+                              width: "100%",
+                            }}
                           >
                             {task.isCompleted ? (
                               <Chip
@@ -223,6 +210,7 @@ const EverydayTask = () => {
                                 style={{
                                   backgroundColor: "blue",
                                   color: "white",
+                                  width: "100px",
                                 }}
                               />
                             ) : (
@@ -233,14 +221,37 @@ const EverydayTask = () => {
                                     task.priority
                                   ),
                                   color: "white",
+                                  width: "100px",
                                 }}
                               />
                             )}
                             <ListItemText
                               id={labelId}
                               primary={task.name}
-                              style={{ marginLeft: "8px" }}
+                              style={{
+                                marginLeft: "20px",
+                                color: "black",
+                                fontSize: obj.font_size,
+                              }}
                             />
+                            <IconButton
+                              aria-label="addTask"
+                              style={{
+                                marginLeft: "20px",
+                              }}
+                              onClick={() =>
+                                removeEachTask({
+                                  variables: {
+                                    input: {
+                                      id: task.id,
+                                      isShort: true,
+                                    },
+                                  },
+                                })
+                              }
+                            >
+                              <DeleteIcon />
+                            </IconButton>
                           </ListItemButton>
                         </ListItem>
                       );
