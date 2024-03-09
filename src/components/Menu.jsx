@@ -35,6 +35,14 @@ export const Menu = () => {
     navigate("/TaskList");
   };
 
+  const onClickPomodoro = () => {
+    navigate("/Pomodoro");
+  };
+
+  const onClickSwitch = () => {
+    navigate("/Switch");
+  };
+
   const [open, setOpen] = React.useState(false);
 
   const toggleDrawer = (newOpen) => () => {
@@ -54,6 +62,8 @@ export const Menu = () => {
           ["Home", onClickEverydayTask],
           ["Task List", onClickTaskList],
           ["Account", onClickUserAccount],
+          ["Pomodoro", onClickPomodoro],
+          ["Switch", onClickSwitch],
         ].map((menu, index) => (
           <ListItem key={menu[0]} disavlePadding>
             <ListItemButton onClick={menu[1]}>
@@ -93,6 +103,8 @@ export const Menu = () => {
               {location.pathname == "/TaskList" && "Task List"}
               {location.pathname == "/UserAccount" && "Account"}
               {location.pathname == "/Login" && "Login"}
+              {location.pathname == "/Pomodoro" && "Pomodoro"}
+              {location.pathname == "/Switch" && "Yaruki Switch"}
             </Typography>
             <Button color="inherit" onClick={logout}>
               Logout

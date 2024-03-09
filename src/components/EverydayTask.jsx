@@ -1,8 +1,6 @@
 import { AddTask } from "../atoms/AddTask";
 import { gql, useQuery, useMutation } from "@apollo/client";
 import { formatISO } from "date-fns";
-
-//追加分
 import Card from "@mui/material/Card";
 import Grid from "@mui/material/Grid";
 import CardContent from "@mui/material/CardContent";

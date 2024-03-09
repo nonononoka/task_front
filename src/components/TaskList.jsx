@@ -3,17 +3,6 @@ import { AddTask } from "../atoms/AddTask";
 import { DataGrid } from "@mui/x-data-grid";
 import Chip from "@mui/material/Chip";
 
-// import {
-//   Table,
-//   TableBody,
-//   TableCell,
-//   TableContainer,
-//   TableHead,
-//   TableRow,
-//   Paper,
-//   Checkbox,
-// } from "@mui/material";
-
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 
