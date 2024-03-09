@@ -13,8 +13,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
+import Chip from "@mui/material/Chip";
 
 const EverydayTask = () => {
   const Today = new Date();
@@ -89,7 +89,22 @@ const EverydayTask = () => {
     return isDateMatched(task.expirationDate, formatISO(Tomorrow), task);
   });
 
+  //task優先度でchip背景色を切り替える関数
+  function getChipBackgroundColor(priority) {
+    switch (priority) {
+      case "HIGH":
+        return "red"; // 高優先度の場合、赤色
+      case "MIDDLE":
+        return "orange"; // 中優先度の場合、オレンジ色
+      case "LOW":
+        return "green"; // 低優先度の場合、緑色
+      default:
+        return "gray"; // その他の場合、グレー色
+    }
+  }
+
   const yesterdayObj = {
+    Date: Yesterday,
     title: "Yesterday",
     task: yesterday_task,
     sx: {
@@ -104,6 +119,7 @@ const EverydayTask = () => {
   };
 
   const todayObj = {
+    Date: Today,
     title: "Today",
     task: today_task,
     sx: {
@@ -118,6 +134,7 @@ const EverydayTask = () => {
   };
 
   const tomorrowObj = {
+    Date: Tomorrow,
     title: "Tomorrow",
     task: tomorrow_task,
     sx: {
@@ -152,77 +169,86 @@ const EverydayTask = () => {
                     </Grid>
                     <Grid item xs={obj.item_xs1}>
                       <div>
-                        <AddTask isTemporary={true} temporaryDate={Yesterday} />
+                        <AddTask isTemporary={true} temporaryDate={obj.Date} />
                       </div>
                     </Grid>
                   </Grid>
-                </CardContent>
-                <List
-                  sx={{
-                    width: "100%",
-                    maxWidth: 360,
-                    // bgcolor: "background.paper",
-                  }}
-                >
-                  {obj.task.map((task) => {
-                    const labelId = `checkbox-list-label-${task}`;
+                  <List
+                    sx={{
+                      width: "100%",
+                      maxWidth: 360,
+                    }}
+                  >
+                    {obj.task.map((task) => {
+                      const labelId = `chip-list-label-${task}`;
 
-                    return (
-                      <ListItem
-                        key={task}
-                        secondaryAction={
-                          <IconButton
-                            aria-label="addTask"
+                      return (
+                        <ListItem
+                          key={task}
+                          secondaryAction={
+                            <IconButton
+                              aria-label="addTask"
+                              onClick={() =>
+                                removeEachTask({
+                                  variables: {
+                                    input: {
+                                      id: task.id,
+                                      isShort: true,
+                                    },
+                                  },
+                                })
+                              }
+                            >
+                              <DeleteIcon />
+                            </IconButton>
+                          }
+                          disablePadding
+                        >
+                          <ListItemButton
+                            role={undefined}
                             onClick={() =>
-                              removeEachTask({
+                              changeCompleted({
                                 variables: {
                                   input: {
                                     id: task.id,
                                     isShort: true,
+                                    isComplete: !task.isCompleted,
                                   },
                                 },
                               })
                             }
+                            dense
                           >
-                            <DeleteIcon />
-                          </IconButton>
-                        }
-                        disablePadding
-                      >
-                        <ListItemButton
-                          role={undefined}
-                          onClick={() =>
-                            changeCompleted({
-                              variables: {
-                                input: {
-                                  id: task.id,
-                                  isShort: true,
-                                  isComplete: !task.isCompleted,
-                                },
-                              },
-                            })
-                          }
-                          dense
-                        >
-                          <ListItemIcon>
-                            {/* <Checkbox
-                              edge="start"
-                              checked={task.isCompleted}
-                              tabIndex={-1}
-                              disableRipple
-                              inputProps={{ "aria-labelledby": labelId }}
-                            /> */}
-                          </ListItemIcon>
-                          <ListItemText
-                            id={labelId}
-                            primary={task.name}
-                            style={{ color: "Red" }}
-                          />
-                        </ListItemButton>
-                      </ListItem>
-                    );
-                  })}
-                </List>
+                            {task.isCompleted ? (
+                              <Chip
+                                label="Completed!"
+                                style={{
+                                  backgroundColor: "blue",
+                                  color: "white",
+                                }}
+                              />
+                            ) : (
+                              <Chip
+                                label={task.priority}
+                                style={{
+                                  backgroundColor: getChipBackgroundColor(
+                                    task.priority
+                                  ),
+                                  color: "white",
+                                }}
+                              />
+                            )}
+                            <ListItemText
+                              id={labelId}
+                              primary={task.name}
+                              style={{ marginLeft: "8px" }}
+                            />
+                          </ListItemButton>
+                        </ListItem>
+                      );
+                    })}
+                  </List>
+                </CardContent>
               </Card>
             </>
           ))}

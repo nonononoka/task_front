@@ -4,6 +4,12 @@ import "react-datepicker/dist/react-datepicker.css";
 import { useState } from "react";
 import { formatISO } from "date-fns";
 import "./Modal.css";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper/modules";
+
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/navigation";
 
 export const AddTaskModal = ({
   isTemporary,
@@ -95,29 +101,17 @@ export const AddTaskModal = ({
       <div className="modal__content">
         {isTemporary && (
           <>
-            {taskData.allRegisteredTasks.map((task) => {
-              return (
-                <>
-                  <input
-                    id={task.id}
-                    type="checkbox"
-                    value={task.name}
-                    onChange={() => setVal(task.name)}
-                  />
-                  <label htmlFor={task.id}>
-                    {task.limitDate}:{task.name}
-                  </label>
-                  <select
-                    value={priority}
-                    onChange={(e) => setPriority(e.target.value)}
-                  >
-                    <option value="HIGH">HIGH</option>
-                    <option value="MIDDLE">MIDDLE</option>
-                    <option value="LOW">LOW</option>
-                  </select>
-                </>
-              );
-            })}
+            <Swiper
+              slidesPerView={3}
+              spaceBetween={30}
+              navigation={true}
+              modules={[Navigation]}
+              className="mySwiper"
+            >
+              {taskData.allRegisteredTasks.map((task) => {
+                return <SwiperSlide key={task.id}>{task.name}</SwiperSlide>;
+              })}
+            </Swiper>
           </>
         )}
         <div>
