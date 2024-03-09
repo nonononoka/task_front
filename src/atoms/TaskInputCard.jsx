@@ -92,9 +92,9 @@ export const TaskInputCard = ({
           options={allCategories}
           sx={{ width: 300 }}
           renderInput={(params) => <TextField {...params} label="Category" />}
-          onChange={(event, newValue) => setCategory(newValue)}
+          onChange={(event, newValue) => setCategory(newValue.label)}
           onInputChange={(event, newInputValue) => {
-            setCategory(newInputValue);
+            setCategory(newInputValue.label);
           }}
           value={category}
         />
