@@ -2,7 +2,9 @@ import { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase.js";
 import { useNavigate } from "react-router-dom";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
+import { TextField, Button } from "@mui/material";
+import Stack from "@mui/material/Stack";
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -23,33 +25,55 @@ export const Login = () => {
 
   return (
     <>
-      <h1>ログインページ</h1>
-      <span className="input-group-btn">
-        <Link to="/SignUp">Click to Signup</Link>
-      </span>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>メールアドレス</label>
-          {/* ↓「value」と「onChange」を追加 */}
-          <input
-            name="email"
-            type="email"
-            value={loginEmail}
-            onChange={(e) => setLoginEmail(e.target.value)}
-          />
-        </div>
-        <div>
-          <label>パスワード</label>
-          {/* ↓「value」と「onChange」を追加 */}
-          <input
-            name="password"
-            type="password"
-            value={loginPassword}
-            onChange={(e) => setLoginPassword(e.target.value)}
-          />
-        </div>
-        <button>ログイン</button>
-      </form>
+      <div>
+        <form onSubmit={handleSubmit}>
+          <div style={{ marginTop: "50px" }}>
+            <TextField
+              label="email"
+              name="email"
+              type="email"
+              value={loginEmail}
+              onChange={(e) => setLoginEmail(e.target.value)}
+              sx={{ width: "300px" }}
+              variant="outlined"
+            />
+          </div>
+          <div style={{ marginTop: "50px" }}>
+            <TextField
+              label="password"
+              name="password"
+              type="password"
+              value={loginPassword}
+              onChange={(e) => setLoginPassword(e.target.value)}
+              sx={{ width: "300px" }}
+              variant="outlined"
+            />
+          </div>
+          <Stack
+            direction="row"
+            spacing={2}
+            sx={{ display: "flex", justifyContent: "center" }}
+          >
+            <Button
+              variant="contained"
+              color="primary"
+              type="submit"
+              style={{ marginTop: "50px" }}
+            >
+              Login
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              type="submit"
+              style={{ marginTop: "50px" }}
+              onClick={() => navigate("/SignUp")}
+            >
+              Sign up
+            </Button>
+          </Stack>
+        </form>
+      </div>
     </>
   );
 };
