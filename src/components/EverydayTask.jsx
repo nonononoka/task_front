@@ -108,8 +108,8 @@ const EverydayTask = () => {
     title: "Yesterday",
     task: yesterday_task,
     sx: {
-      width: "300px",
-      height: "200px",
+      width: "25%",
+      height: "30%",
       overflow: "auto",
       backgroundColor: "white", // 背景色を指定
     },
@@ -123,8 +123,8 @@ const EverydayTask = () => {
     title: "Today",
     task: today_task,
     sx: {
-      width: "400px",
-      height: "300px",
+      width: "35%",
+      height: "40%",
       overflow: "auto",
       backgroundColor: "white", // 背景色を指定
     },
@@ -138,8 +138,8 @@ const EverydayTask = () => {
     title: "Tomorrow",
     task: tomorrow_task,
     sx: {
-      width: "300px",
-      height: "200px",
+      width: "25%",
+      height: "40%",
       overflow: "auto",
       backgroundColor: "white", // 背景色を指定
     },
