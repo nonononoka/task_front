@@ -92,6 +92,7 @@ export const Menu = () => {
               {location.pathname == "/" && "Home"}
               {location.pathname == "/TaskList" && "Task List"}
               {location.pathname == "/UserAccount" && "Account"}
+              {location.pathname == "/Login" && "Login"}
             </Typography>
             <Button color="inherit" onClick={logout}>
               Logout
