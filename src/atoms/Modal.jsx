@@ -148,45 +148,45 @@ export const AddTaskModal = ({ isTemporary, temporaryDate, onClose }) => {
             setCategory={setCategory}
             allCategories={data.allCategories}
           />
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              marginTop: "15px",
-              marginBottom: "10px",
-            }}
-          >
-            <Button
-              variant="outlined"
-              onClick={() => {
-                isTemporary
-                  ? addShortTask({
-                      variables: {
-                        input: {
-                          name: name,
-                          expirationDate: formatISO(temporaryDate),
-                          priority: selectedPriority,
-                          category: category,
-                        },
-                      },
-                    })
-                  : addTask({
-                      variables: {
-                        input: {
-                          name: name,
-                          limitDate: date ? date.toISOString() : null,
-                          priority: selectedPriority,
-                          category: category,
-                        },
-                      },
-                    });
-                onClose();
-              }}
-            >
-              Register
-            </Button>
-          </Box>
         </Card>
+      </Box>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          marginTop: "15px",
+          marginBottom: "10px",
+        }}
+      >
+        <Button
+          variant="outlined"
+          onClick={() => {
+            isTemporary
+              ? addShortTask({
+                  variables: {
+                    input: {
+                      name: name,
+                      expirationDate: formatISO(temporaryDate),
+                      priority: selectedPriority,
+                      category: category,
+                    },
+                  },
+                })
+              : addTask({
+                  variables: {
+                    input: {
+                      name: name,
+                      limitDate: date ? date.toISOString() : null,
+                      priority: selectedPriority,
+                      category: category,
+                    },
+                  },
+                });
+            onClose();
+          }}
+        >
+          Register
+        </Button>
       </Box>
     </>
   );
