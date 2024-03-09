@@ -14,8 +14,8 @@ import Chip from "@mui/material/Chip";
 //   Checkbox,
 // } from "@mui/material";
 
-// import DeleteIcon from "@mui/icons-material/Delete";
-// import IconButton from "@mui/material/IconButton";
+import DeleteIcon from "@mui/icons-material/Delete";
+import IconButton from "@mui/material/IconButton";
 
 // import Button from "@mui/material/Button";
 
@@ -100,7 +100,7 @@ const TaskList = () => {
 
   const priorities = ["LOW", "MIDDLE", "HIGH"];
   const compareReturn = (v1, v2) => {
-    console.log(v1,v2)
+    console.log(v1, v2);
     if (v1 == v2) {
       return 0;
     }
@@ -151,6 +151,29 @@ const TaskList = () => {
       headerName: "category",
       flex: 1,
     },
+    {
+      flex: 0.2,
+      renderCell: (params) => {
+        return (
+          <IconButton
+            aria-label="addTask"
+            onClick={(e) => {
+              removeEachTask({
+                variables: {
+                  input: {
+                    id: params.row.id,
+                    isShort: false,
+                  },
+                },
+              });
+              e.stopPropagation();
+            }}
+          >
+            <DeleteIcon />
+          </IconButton>
+        );
+      },
+    },
   ];
 
   return (
@@ -183,106 +206,6 @@ const TaskList = () => {
         />
         <AddTask temporaryDate={Today} isTemporary={false} />
       </div>
-      {/* <TableContainer component={Paper} sx={{ marginTop: "100px" }}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell></TableCell>
-              <TableCell>
-                <div style={{ cursor: "pointer" }}>Category</div>
-              </TableCell>
-              <TableCell>Name</TableCell>
-              <TableCell>
-                <div style={{ cursor: "pointer" }}>Limit Date</div>
-              </TableCell>
-              <TableCell>
-                <div style={{ cursor: "pointer" }}>Priority</div>
-              </TableCell>
-              <TableCell>
-                <AddTask temporaryDate={Today} isTemporary={false} />
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {data &&
-              data.allRegisteredTasks.map((task, index) => (
-                <TableRow key={index}>
-                  <TableCell>
-                    <Checkbox
-                      id={task.id}
-                      checked={task.isCompleted}
-                      key={task.id}
-                      onChange={() =>
-                        changeCompleted({
-                          variables: {
-                            input: {
-                              id: task.id,
-                              isShort: false,
-                              isComplete: !task.isCompleted,
-                            },
-                          },
-                        })
-                      }
-                    />
-                  </TableCell>
-                  <TableCell>{task.category || "None"}</TableCell>
-                  <TableCell>{task.name}</TableCell>
-                  <TableCell>{formatDate(task.limitDate)}</TableCell>
-                  <TableCell>
-                    {task.isCompleted ? (
-                      <div
-                        style={{
-                          backgroundColor: "blue",
-                          color: "white",
-                          width: "80px", // ラベルが最大の幅になるように適切な値を設定してください
-                          textAlign: "center", // 必要に応じてテキストを中央揃えにします
-                          borderRadius: "20px", // 丸みを帯びるように設定
-                          padding: "5px", // 必要に応じて余白を追加
-                        }}
-                      >
-                        Completed!
-                      </div>
-                    ) : (
-                      <div
-                        style={{
-                          backgroundColor: getChipBackgroundColor(
-                            task.priority
-                          ),
-                          color: "white",
-                          width: "80px", // ラベルが最大の幅になるように適切な値を設定してください
-                          textAlign: "center", // 必要に応じてテキストを中央揃えにします
-                          borderRadius: "20px", // 丸みを帯びるように設定
-                          padding: "5px", // 必要に応じて余白を追加
-                        }}
-                      >
-                        {task.priority}
-                      </div>
-                    )}
-                  </TableCell>
-                  <TableCell>
-                    <IconButton
-                      aria-label="deleteTask"
-                      onClick={() => {
-                        console.log(task.id);
-                        removeEachTask({
-                          variables: {
-                            input: {
-                              id: task.id,
-                              isShort: false,
-                            },
-                          },
-                        });
-                      }}
-                    >
-                      <DeleteIcon />
-                    </IconButton>
-                  </TableCell>
-                </TableRow>
-              ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <Button onClick={() => removeAllTasks()}>Delete All Tasks</Button> */}
     </>
   );
 };
