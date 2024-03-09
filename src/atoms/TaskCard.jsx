@@ -5,14 +5,7 @@ import Chip from "@mui/material/Chip";
 export const TaskCard = ({
   priority,
   name,
-  setName,
   limitDate,
-  selectedPriority,
-  setSelectedPriority,
-  date,
-  setDate,
-  category,
-  setCategory,
 }) => {
   //task優先度でchip背景色を切り替える関数
   function getChipBackgroundColor(priority) {

@@ -18,6 +18,8 @@ export const TaskInputCard = ({
   setCategory,
   allCategories,
 }) => {
+
+    console.log("category", category)
   function getChipBackgroundColor(isSelected, priority) {
     switch (priority) {
       case "HIGH":
@@ -94,7 +96,7 @@ export const TaskInputCard = ({
           renderInput={(params) => <TextField {...params} label="Category" />}
           onChange={(event, newValue) => setCategory(newValue.label)}
           onInputChange={(event, newInputValue) => {
-            setCategory(newInputValue.label);
+            setCategory(newInputValue);
           }}
           value={category}
         />
