@@ -1,5 +1,5 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
-import DatePicker from "react-datepicker";
+import Stack from "@mui/material/Stack";
 import "react-datepicker/dist/react-datepicker.css";
 import { useState } from "react";
 import { formatISO } from "date-fns";
@@ -7,65 +7,16 @@ import "./Modal.css";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
-import Chip from "@mui/material/Chip";
 import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
+import { TaskCard } from "./TaskCard";
+import { TaskInputCard } from "./TaskInputCard";
 
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/navigation";
 
-const TaskCard = ({ priority, name, limitDate }) => {
-  //task優先度でchip背景色を切り替える関数
-  function getChipBackgroundColor(priority) {
-    switch (priority) {
-      case "HIGH":
-        return "red"; // 高優先度の場合、赤色
-      case "MIDDLE":
-        return "orange"; // 中優先度の場合、オレンジ色
-      case "LOW":
-        return "green"; // 低優先度の場合、緑色
-      default:
-        return "gray"; // その他の場合、グレー色
-    }
-  }
-
-  return (
-    <CardContent>
-      <Chip
-        label={priority}
-        style={{
-          backgroundColor: getChipBackgroundColor(priority),
-          color: "white",
-        }}
-      />
-      <Typography variant="h5" component="div">
-        {name}
-      </Typography>
-      {limitDate ? (
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          {limitDate.split("T")[0]}
-        </Typography>
-      ) : (
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          Timeless
-        </Typography>
-      )}
-      <Typography variant="body2">
-        well meaning and kindly
-        <br />
-        {'"a benevolent smile"'}
-      </Typography>
-    </CardContent>
-  );
-};
-
-export const AddTaskModal = ({
-  isTemporary,
-  temporaryDate,
-  handleCloseClick,
-}) => {
+export const AddTaskModal = ({ isTemporary, temporaryDate, onClose }) => {
   const ADD_TASK_MUTATION = gql`
     mutation RegisterTask($input: AddTaskInput!) {
       registerTask(input: $input) {
@@ -103,7 +54,7 @@ export const AddTaskModal = ({
   const ALL_CATEGORIES = gql`
     query AllCategories {
       allCategories {
-        category
+        label
       }
     }
   `;
@@ -127,8 +78,8 @@ export const AddTaskModal = ({
 
   const [date, setDate] = useState(temporaryDate);
   const [category, setCategory] = useState(null);
-  const [priority, setPriority] = useState("HIGH");
-  const [val, setVal] = useState("");
+  const [name, setName] = useState("");
+  const [selectedPriority, setSelectedPriority] = useState("HIGH");
 
   const [addTask] = useMutation(ADD_TASK_MUTATION, {
     refetchQueries: [{ query: ALL_TASKS }, { query: ALL_CATEGORIES }],
@@ -174,84 +125,62 @@ export const AddTaskModal = ({
           </Swiper>
         </>
       )}
-      <div>
-        <input
-          placeholder="your task"
-          value={val}
-          onChange={(e) => setVal(e.target.value)}
-        />
-      </div>
-      {!isTemporary && (
-        <>
-          <div>
-            <DatePicker
-              showIcon
-              selected={date}
-              onChange={(selectedDate) => {
-                setDate(selectedDate);
-              }}
-            />
-          </div>
-          <div>
-            <button onClick={() => setDate(null)}>日付を設定しない</button>
-          </div>
-        </>
-      )}
-      <div>
-        <input
-          placeholder="add Category"
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-        />
-        <select value={priority} onChange={(e) => setPriority(e.target.value)}>
-          <option value="HIGH">HIGH</option>
-          <option value="MIDDLE">MIDDLE</option>
-          <option value="LOW">LOW</option>
-        </select>
-      </div>
-      <div>
-        {data.allCategories.length >= 1 && (
-          <select
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-          >
-            {data.allCategories.map((category) => (
-              <option key={category.category} value={category.category}>
-                {category.category}
-              </option>
-            ))}
-          </select>
-        )}
-      </div>
-      <Button
-        variant="outlined"
-        onClick={() => {
-          handleCloseClick();
-          isTemporary
-            ? addShortTask({
-                variables: {
-                  input: {
-                    name: val,
-                    expirationDate: formatISO(temporaryDate),
-                    priority: priority,
-                    category: category,
-                  },
-                },
-              })
-            : addTask({
-                variables: {
-                  input: {
-                    name: val,
-                    limitDate: date ? date.toISOString() : null,
-                    priority: priority,
-                    category: category,
-                  },
-                },
-              });
-        }}
+      <Box
+        sx={{ display: "flex", justifyContent: "center", marginTop: "30px" }}
       >
-        Register
-      </Button>
+        <Card variant="outlined">
+          <TaskInputCard
+            selectedPriority={selectedPriority}
+            setSelectedPriority={setSelectedPriority}
+            name={name}
+            setName={setName}
+            isTemporary={isTemporary}
+            date={date}
+            setDate={setDate}
+            category={category}
+            setCategory={setCategory}
+            allCategories={data.allCategories}
+          />
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              marginTop: "15px",
+              marginBottom: "10px",
+            }}
+          >
+            <Button
+              variant="outlined"
+              onClick={() => {
+                isTemporary
+                  ? addShortTask({
+                      variables: {
+                        input: {
+                          name: name,
+                          expirationDate: formatISO(temporaryDate),
+                          priority: selectedPriority,
+                          category: category,
+                        },
+                      },
+                    })
+                  : addTask({
+                      variables: {
+                        input: {
+                          name: name,
+                          limitDate: date ? date.toISOString() : null,
+                          priority: selectedPriority,
+                          category: category,
+                        },
+                      },
+                    });
+                onClose();
+              }}
+            >
+              Register
+            </Button>
+          </Box>
+        </Card>
+      </Box>
     </>
   );
 };

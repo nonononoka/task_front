@@ -40,6 +40,7 @@ export const AddTask = ({ isTemporary, temporaryDate }) => {
       >
         <Box sx={style}>
           <AddTaskModal
+            onClose = {handleClose}
             isTemporary={isTemporary}
             temporaryDate={temporaryDate}
           />
