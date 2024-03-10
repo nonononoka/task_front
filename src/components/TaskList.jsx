@@ -2,11 +2,8 @@ import { gql, useMutation, useQuery } from "@apollo/client";
 import { AddTask } from "../atoms/AddTask";
 import { DataGrid } from "@mui/x-data-grid";
 import Chip from "@mui/material/Chip";
-
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
-
-// import Button from "@mui/material/Button";
 
 const TaskList = () => {
   const REMOVE_ALL_TASKS_MUTATION = gql`
@@ -160,7 +157,7 @@ const TaskList = () => {
 
   return (
     <>
-      <div style={{ height: 600, width: "100%" }}>
+      <div style={{ marginTop:60 ,height: 600, width: "100%" }}>
         <DataGrid
           rowHeight={70}
           rows={rows}
