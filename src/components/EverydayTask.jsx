@@ -13,6 +13,8 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import Chip from "@mui/material/Chip";
+import TimerIcon from "@mui/icons-material/Timer";
+import { useNavigate } from "react-router-dom";
 
 const EverydayTask = () => {
   const Today = new Date();
@@ -27,6 +29,8 @@ const EverydayTask = () => {
     Today.getDate() + 1
   );
 
+  const navigate = useNavigate();
+
   const ALL_REGISTERED_SHORT_TASKS = gql`
     query AllTasks {
       allRegisteredShortTasks {
@@ -34,6 +38,7 @@ const EverydayTask = () => {
         expirationDate
         name
         isCompleted
+        isPomodoro
         priority
         category
       }
@@ -57,6 +62,16 @@ const EverydayTask = () => {
   `;
 
   const [changeCompleted] = useMutation(CHANGE_IS_COMPLETED, {
+    refetchQueries: [{ query: ALL_REGISTERED_SHORT_TASKS }],
+  });
+
+  const CHANGE_POMODORO = gql`
+    mutation ChangePomodoro($input: ChangePomodoroInput!) {
+      changePomodoro(input: $input)
+    }
+  `;
+
+  const [changePomodoro] = useMutation(CHANGE_POMODORO, {
     refetchQueries: [{ query: ALL_REGISTERED_SHORT_TASKS }],
   });
 
@@ -234,6 +249,26 @@ const EverydayTask = () => {
                                 fontSize: obj.font_size,
                               }}
                             />
+                            <IconButton
+                              aria-label="addTask"
+                              style={{
+                                marginLeft: "20px",
+                              }}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                changePomodoro({
+                                  variables: {
+                                    input: {
+                                      id: task.id,
+                                      isPomodoro: true,
+                                    },
+                                  },
+                                });
+                                navigate("/Pomodoro");
+                              }}
+                            >
+                              <TimerIcon />
+                            </IconButton>
                             <IconButton
                               aria-label="addTask"
                               style={{
