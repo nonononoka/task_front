@@ -8,6 +8,7 @@ import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
+import TimerIcon from "@mui/icons-material/Timer";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -17,6 +18,7 @@ import { TaskCard } from "../atoms/TaskCard";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import WarningIcon from "@mui/icons-material/Warning";
+import { useNavigate } from "react-router-dom";
 
 const EverydayTask = () => {
   const Today = new Date();

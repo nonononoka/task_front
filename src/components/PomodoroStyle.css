@@ -7,6 +7,7 @@ h1 {
   .timer-wrapper {
     display: flex;
     justify-content: center;
+    margin-top: 50px;
   }
   
   .timer {

@@ -1,9 +1,11 @@
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { useState, useCallback } from "react";
 import "./PomodoroStyle.css";
-import React, { useState, useEffect } from "react";
 import { gql, useQuery, useMutation } from "@apollo/client";
 import { useNavigate } from "react-router-dom";
+import { Button, Grid } from "@mui/material";
+import Card from "@mui/material/Card";
+import { TaskCard } from "../atoms/TaskCard";
 
 export const Pomodoro = () => {
   const children = useCallback(({ remainingTime }) => {
@@ -17,7 +19,7 @@ export const Pomodoro = () => {
   const handleStartPause = () => {
     setIsActive((prevIsActive) => !prevIsActive);
   };
-  
+
   const navigate = useNavigate();
 
   const ALL_REGISTERED_SHORT_TASKS = gql`
@@ -54,50 +56,74 @@ export const Pomodoro = () => {
 
   const pomodoroTask = data.allRegisteredShortTasks.filter((task) => {
     return task.isPomodoro;
-  });
-
-  console.log(pomodoroTask);
+  })[0];
 
   return (
     <div className="App">
       <h1>{isWorking ? "Work" : "Break"}</h1>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+      <Card
+        onClick={() => {}}
+        variant="outlined"
+        style={{ width: 300, height: 200 }}
+      >
+        <TaskCard
+          priority={pomodoroTask.priority}
+          name={pomodoroTask.name}
+          limitDate={pomodoroTask.limitDate}
+        />
+      </Card>
+      </div>
+
       <div className="timer-wrapper">
         <CountdownCircleTimer
           isPlaying={isActive}
-          duration={1500}
+          duration={10}
           colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
           colorsTime={[1500, 1100, 500, 0]}
+          size="180"
           onComplete={() => {
             isWorking = !isWorking;
             return {
               shouldRepeat: true,
-              newInitialRemainingTime: isWorking ? 1500 : 300,
+              newInitialRemainingTime: isWorking ? 10 : 5,
             };
           }}
         >
           {children}
         </CountdownCircleTimer>
       </div>
-      <p className="info">
-        Change component properties in the code filed on the right to try
-        difference functionalities
-      </p>
-      <button onClick={handleStartPause}>{isActive ? "Pause" : "Start"}</button>
-<button
-        onClick={() => {
-          changePomodoro({
-            variables: {
-              input: {
-                id: pomodoroTask[0].id,
-                isPomodoro: false,
-              },
-            },
-          });
-          navigate("/EveryDayTask");
-        }}
-      >
-        Reset
-      </button>
+
+      <Grid container spacing={2} justifyContent="center" sx ={{marginTop:"50px"}}>
+        <Grid item>
+          <Button variant="contained" onClick={handleStartPause}>
+            {isActive ? "Pause" : "Start"}
+          </Button>
+        </Grid>
+        <Grid item>
+          <Button
+            variant="contained"
+            onClick={() => {
+              changePomodoro({
+                variables: {
+                  input: {
+                    id: pomodoroTask.id,
+                    isPomodoro: false,
+                  },
+                },
+              });
+              navigate("/");
+            }}
+          >
+            Finish
+          </Button>
+        </Grid>
+      </Grid>
     </div>
   );
 };

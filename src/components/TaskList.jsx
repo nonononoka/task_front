@@ -6,12 +6,6 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 
 const TaskList = () => {
-  const REMOVE_ALL_TASKS_MUTATION = gql`
-    mutation Mutation {
-      removeAllTasks
-    }
-  `;
-
   const REMOVE_EACH_TASK_MUTATION = gql`
     mutation RemoveEachTask($input: RemoveEachTaskInput!) {
       removeEachTask(input: $input)
@@ -46,10 +40,6 @@ const TaskList = () => {
   });
 
   const { loading, data, error } = useQuery(ALL_TASKS);
-
-  const [removeAllTasks] = useMutation(REMOVE_ALL_TASKS_MUTATION, {
-    refetchQueries: [{ query: ALL_TASKS }],
-  });
 
   if (error) {
     console.log(error.message);

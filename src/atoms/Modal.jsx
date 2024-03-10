@@ -113,7 +113,6 @@ export const AddTaskModal = ({ isTemporary, temporaryDate, onClose }) => {
               return (
                 <SwiperSlide key={task.id}>
                   <Card
-                //   style={{ width: 300, height: 200 }}
                     onClick={() => {
                       setName(task.name);
                       setSelectedPriority(task.priority);
