@@ -13,6 +13,10 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import Chip from "@mui/material/Chip";
+import { TaskCard } from "../atoms/TaskCard";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper/modules";
+import WarningIcon from "@mui/icons-material/Warning";
 
 const EverydayTask = () => {
   const Today = new Date();
@@ -71,20 +75,56 @@ const EverydayTask = () => {
   };
 
   const { data, error, loading } = useQuery(ALL_REGISTERED_SHORT_TASKS);
-  if (error) {
+  const ALL_TASKS = gql`
+    query AllTasks {
+      allRegisteredTasks {
+        id
+        limitDate
+        name
+        isCompleted
+        priority
+        category
+      }
+    }
+  `;
+
+  const {
+    loading: taskLoading,
+    data: allRegisteredTaskData,
+    error: taskError,
+  } = useQuery(ALL_TASKS);
+
+  if (error || taskError) {
     console.log(error.message);
   }
 
-  if (loading || error) return <></>;
+  if (loading || error || taskLoading || taskError) return <></>;
 
   const yesterday_task = data.allRegisteredShortTasks.filter((task) => {
-    return isDateMatched(task.expirationDate, formatISO(Yesterday), task);
+    return isDateMatched(task.expirationDate, formatISO(Yesterday));
   });
   const today_task = data.allRegisteredShortTasks.filter((task) => {
-    return isDateMatched(task.expirationDate, formatISO(Today), task);
+    return isDateMatched(task.expirationDate, formatISO(Today));
   });
   const tomorrow_task = data.allRegisteredShortTasks.filter((task) => {
-    return isDateMatched(task.expirationDate, formatISO(Tomorrow), task);
+    return isDateMatched(task.expirationDate, formatISO(Tomorrow));
+  });
+  const priorities = ["LOW", "MIDDLE", "HIGH"];
+  const compareReturn = (v1, v2) => {
+    if (v1 == v2) {
+      return 0;
+    }
+    return priorities.indexOf(v1) > priorities.indexOf(v2) ? -1 : 1;
+  };
+
+  const sorted_yesterday_task = yesterday_task.sort(function (a, b) {
+    return compareReturn(a.priority, b.priority);
+  });
+  const sorted_today_task = today_task.sort(function (a, b) {
+    return compareReturn(a.priority, b.priority);
+  });
+  const sorted_tomorrow_task = tomorrow_task.sort(function (a, b) {
+    return compareReturn(a.priority, b.priority);
   });
 
   //task優先度でchip背景色を切り替える関数
@@ -104,7 +144,7 @@ const EverydayTask = () => {
   const yesterdayObj = {
     Date: Yesterday,
     title: "Yesterday",
-    task: yesterday_task,
+    task: sorted_yesterday_task,
     sx: {
       width: "25%",
       height: "350px",
@@ -120,7 +160,7 @@ const EverydayTask = () => {
   const todayObj = {
     Date: Today,
     title: "Today",
-    task: today_task,
+    task: sorted_today_task,
     sx: {
       width: "35%",
       height: "400px",
@@ -136,7 +176,7 @@ const EverydayTask = () => {
   const tomorrowObj = {
     Date: Tomorrow,
     title: "Tomorrow",
-    task: tomorrow_task,
+    task: sorted_tomorrow_task,
     sx: {
       width: "25%",
       height: "350px",
@@ -149,6 +189,11 @@ const EverydayTask = () => {
     font_weight: "regular",
   };
 
+  //sort allRegisteredTask
+  const todayRegisteredTask = allRegisteredTaskData.allRegisteredTasks.filter(
+    (task) => isDateMatched(task.limitDate, Today)
+  );
+
   return (
     <>
       <div>
@@ -156,7 +201,7 @@ const EverydayTask = () => {
           direction="row"
           spacing={2} //cardの間隔
           justifyContent="center" //card列を中央に配置
-          marginTop="50px"
+          marginTop="20px"
         >
           {[yesterdayObj, todayObj, tomorrowObj].map((obj) => (
             <>
@@ -261,6 +306,65 @@ const EverydayTask = () => {
               </Card>
             </>
           ))}
+        </Stack>
+      </div>
+      
+      <div>
+        <Typography
+          style={{
+            fontSize: "30px",
+            fontWeight: "bold",
+            marginTop:"40px",
+            marginLeft:"250px",
+            textAlign:"left",
+          }}
+          gutterBottom
+        >
+          <WarningIcon/>
+          Emergency
+        </Typography>
+      </div>
+
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <Stack marginTop="10px" sx={{ width: "60%" }}>
+          <Swiper
+            slidesPerView={3}
+            spaceBetween={30}
+            navigation={true}
+            modules={[Navigation]}
+            className="mySwiper"
+            centeredSlides={true}
+          >
+            {todayRegisteredTask.map((task) => {
+              return (
+                <SwiperSlide key={task.id}>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      backgroundColor: "#f5faff",
+                    }}
+                  >
+                    <Card
+                      variant="outlined"
+                      style={{ width: 300, height: 200 }}
+                    >
+                      <TaskCard
+                        priority={task.priority}
+                        name={task.name}
+                        limitDate={task.limitDate}
+                      />
+                    </Card>
+                  </div>
+                </SwiperSlide>
+              );
+            })}
+          </Swiper>
         </Stack>
       </div>
     </>
