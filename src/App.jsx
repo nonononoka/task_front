@@ -1,8 +1,8 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import UserAccount from "./components/UserAccount";
-import { Pomodoro } from "./components/Pomodoro";
-import { Switch } from "./components/Switch";
+import Pomodoro from "./components/Pomodoro";
+import Switch from "./components/Switch";
 import EverydayTask from "./components/EverydayTask";
 import TaskList from "./components/TaskList";
 import { Menu } from "./components/Menu";
