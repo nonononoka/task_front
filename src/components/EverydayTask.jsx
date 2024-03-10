@@ -31,6 +31,8 @@ const EverydayTask = () => {
     Today.getDate() + 1
   );
 
+  const navigate = useNavigate();
+
   const ALL_REGISTERED_SHORT_TASKS = gql`
     query AllTasks {
       allRegisteredShortTasks {
@@ -38,6 +40,7 @@ const EverydayTask = () => {
         expirationDate
         name
         isCompleted
+        isPomodoro
         priority
         category
       }
@@ -61,6 +64,16 @@ const EverydayTask = () => {
   `;
 
   const [changeCompleted] = useMutation(CHANGE_IS_COMPLETED, {
+    refetchQueries: [{ query: ALL_REGISTERED_SHORT_TASKS }],
+  });
+
+  const CHANGE_POMODORO = gql`
+    mutation ChangePomodoro($input: ChangePomodoroInput!) {
+      changePomodoro(input: $input)
+    }
+  `;
+
+  const [changePomodoro] = useMutation(CHANGE_POMODORO, {
     refetchQueries: [{ query: ALL_REGISTERED_SHORT_TASKS }],
   });
 
@@ -284,6 +297,26 @@ const EverydayTask = () => {
                               style={{
                                 marginLeft: "20px",
                               }}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                changePomodoro({
+                                  variables: {
+                                    input: {
+                                      id: task.id,
+                                      isPomodoro: true,
+                                    },
+                                  },
+                                });
+                                navigate("/Pomodoro");
+                              }}
+                            >
+                              <TimerIcon />
+                            </IconButton>
+                            <IconButton
+                              aria-label="addTask"
+                              style={{
+                                marginLeft: "20px",
+                              }}
                               onClick={() =>
                                 removeEachTask({
                                   variables: {
@@ -308,19 +341,19 @@ const EverydayTask = () => {
           ))}
         </Stack>
       </div>
-      
+
       <div>
         <Typography
           style={{
             fontSize: "30px",
             fontWeight: "bold",
-            marginTop:"40px",
-            marginLeft:"250px",
-            textAlign:"left",
+            marginTop: "40px",
+            marginLeft: "250px",
+            textAlign: "left",
           }}
           gutterBottom
         >
-          <WarningIcon/>
+          <WarningIcon />
           Emergency
         </Typography>
       </div>

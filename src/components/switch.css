@@ -1,0 +1,28 @@
+.motivationButton {
+  font-size: 24px;
+  font-weight: bold; /* 太字にする */
+  padding: 15px 30px;
+  border-radius: 50px;
+  background-color: red;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-family: "Noto Serif JP", serif; /* 漢字風のフォントを指定 */
+}
+
+.motivationButton:hover {
+  background-color: darkred;
+}
+
+.message {
+  font-family: "Noto Serif JP", serif; /* 漢字風のフォントを指定 */
+  font-size: 100px;
+  color: black; /* 適切な色に変更してください */
+}
+
+/* .center-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+} */
