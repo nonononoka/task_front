@@ -89,7 +89,6 @@ const TaskList = () => {
 
   const priorities = ["LOW", "MIDDLE", "HIGH"];
   const compareReturn = (v1, v2) => {
-    console.log(v1, v2);
     if (v1 == v2) {
       return 0;
     }
@@ -97,12 +96,6 @@ const TaskList = () => {
   };
 
   const columns = [
-    //   {field: "completed", headerName: "completed", flex:1.
-    // renderCell:(params) => {
-    //   return (
-
-    //   )
-    // }}
     { field: "name", headerName: "name", flex: 1 },
     {
       field: "limitDate",
