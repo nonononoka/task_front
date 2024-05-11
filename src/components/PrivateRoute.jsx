@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
-import { AuthContext } from "./Auth.jsx";
+import { AuthContext } from "../Auth.jsx";
 import { auth } from "../firebase.js";
 import { onAuthStateChanged } from "firebase/auth";
 
