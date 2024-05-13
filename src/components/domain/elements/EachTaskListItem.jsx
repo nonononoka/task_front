@@ -1,9 +1,10 @@
-import { EachTask } from "./EachTask";
 import { TaskStatusButton } from "../gui/groups";
 import { TaskStatusChip } from "../gui/groups";
 import { TaskListIconButton } from "../gui/groups";
+import { useRemoveTask } from "../../../useCase/command/removeTask";
+import { useChangeIsCompleted } from "../../../useCase/command/changeIsComplete";
 
-export const EachTask = ({ task }) => {
+export const EachTaskListItem = ({ task }) => {
     const labelId = `chip-list-label-${task}`;
 
     //task優先度でchip背景色を切り替える関数
@@ -20,44 +21,14 @@ export const EachTask = ({ task }) => {
         }
     }
 
-    const ALL_REGISTERED_SHORT_TASKS = gql`
-    query AllTasks {
-      allRegisteredShortTasks {
-        id
-        expirationDate
-        name
-        isCompleted
-        isPomodoro
-        priority
-        category
-      }
-    }
-  `;
+    const removeTask = useRemoveTask()
 
-    const REMOVE_EACH_TASK_MUTATION = gql`
-    mutation RemoveEachTask($input: RemoveEachTaskInput!) {
-      removeEachTask(input: $input)
-    }
-  `;
-
-    const [removeEachTask] = useMutation(REMOVE_EACH_TASK_MUTATION, {
-        refetchQueries: [{ query: ALL_REGISTERED_SHORT_TASKS }],
-    });
-
-    const CHANGE_IS_COMPLETED = gql`
-    mutation ChangeCompleted($input: ChangeCompletedInput!) {
-      changeCompleted(input: $input)
-    }
-  `;
-
-    const [changeCompleted] = useMutation(CHANGE_IS_COMPLETED, {
-        refetchQueries: [{ query: ALL_REGISTERED_SHORT_TASKS }],
-    });
+    const changeIsCompleted = useChangeIsCompleted()
 
     return (
         <ListItem key={task}>
             <TaskStatusButton handleClick={() =>
-                changeCompleted({
+                changeIsCompleted({
                     variables: {
                         input: {
                             id: task.id,
@@ -99,7 +70,7 @@ export const EachTask = ({ task }) => {
                         fontSize: font_size,
                     }}
                 />
-                <TaskListIconButton label="addTask"
+                {/* <TaskListIconButton label="addTask"
                     handleClick={
                         (e) => {
                             e.stopPropagation();
@@ -115,11 +86,11 @@ export const EachTask = ({ task }) => {
                         }
                     }>
                     <TimerIcon />
-                </TaskListIconButton>
+                </TaskListIconButton> */}
                 <TaskListIconButton label="removeTask"
                     handleClick={
                         () => {
-                            removeEachTask({
+                            removeTask({
                                 variables: {
                                     input: {
                                         id: task.id,

@@ -11,5 +11,6 @@ import { DailyTaskContainer } from "../containers";
 export const EverydayTaskScreen = () => (
     <>
         <DailyTaskContainer />
+        {/* <p>everyday</p> */}
     </>
 );

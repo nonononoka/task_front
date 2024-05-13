@@ -1,14 +1,15 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import UserAccount from "./components/UserAccount";
-import {Pomodoro} from "./components/Pomodoro";
+import { Pomodoro } from "./components/Pomodoro";
 import Switch from "./components/Switch";
-import EverydayTask from "./components/EverydayTask";
 import TaskList from "./components/TaskList";
 import { Menu } from "./components/Menu";
 import { Login } from "./components/Login";
 import { SignUp } from "./components/SignUp";
 import PrivateRoute from "./components/PrivateRoute";
+import { EverydayTaskScreen } from "./components/screens";
+
 import {
   ApolloClient,
   InMemoryCache,
@@ -38,13 +39,13 @@ const createApolloClient = (token) => {
   });
 };
 
-function App({ idToken }) {
+function AppRouter({ idToken }) {
   const client = createApolloClient(idToken);
   const elements = [
     { path: "/UserAccount", element: <UserAccount /> },
     { path: "/Pomodoro", element: <Pomodoro /> },
     { path: "/TaskList", element: <TaskList /> },
-    { path: "/", element: <EverydayTask /> },
+    { path: "/", element: <EverydayTaskScreen /> },
     { path: "/Switch", element: <Switch /> },
   ];
 
@@ -74,4 +75,4 @@ function App({ idToken }) {
   );
 }
 
-export default App;
+export default AppRouter;

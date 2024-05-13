@@ -19,6 +19,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import WarningIcon from "@mui/icons-material/Warning";
 import { useNavigate } from "react-router-dom";
+import { ALL_REGISTERED_SHORT_TASKS } from "../schema";
 
 const EverydayTask = () => {
   const Today = new Date();
@@ -34,20 +35,6 @@ const EverydayTask = () => {
   );
 
   const navigate = useNavigate();
-
-  const ALL_REGISTERED_SHORT_TASKS = gql`
-    query AllTasks {
-      allRegisteredShortTasks {
-        id
-        expirationDate
-        name
-        isCompleted
-        isPomodoro
-        priority
-        category
-      }
-    }
-  `;
 
   const REMOVE_EACH_TASK_MUTATION = gql`
     mutation RemoveEachTask($input: RemoveEachTaskInput!) {

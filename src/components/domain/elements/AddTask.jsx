@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { AddTaskModal } from "./Modal.jsx";
+import { AddTaskModalScreen } from "../../screens";
 import Modal from "@mui/material/Modal";
 import Box from '@mui/material/Box';
 
+import IconButton from "@mui/material/IconButton";
 import AddIcon from "@mui/icons-material/AddTask";
 import { TaskListIconButton } from "../../gui/groups";
 
@@ -39,7 +40,7 @@ export const AddTask = ({ isTemporary, temporaryDate }) => {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <AddTaskModal
+                    <AddTaskModalScreen
                         onClose={handleClose}
                         isTemporary={isTemporary}
                         temporaryDate={temporaryDate}

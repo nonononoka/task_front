@@ -1,4 +1,4 @@
-import { AddTask, DateTitle, EachTask } from "../elements";
+import { AddTask, DateTitle, EachTaskListItem } from "../elements";
 import { DateTitle } from "../gui/groups";
 
 export const DailyTask = ({ date, title, tasks, sx, item_xs0, item_xs1 }) => {
@@ -18,7 +18,7 @@ export const DailyTask = ({ date, title, tasks, sx, item_xs0, item_xs1 }) => {
                     </Grid>
                     <List>
                         {tasks.map((task) => {
-                            <EachTask task={task} />
+                            <EachTaskListItem task={task} />
                         })}
                     </List>
                 </CardContent>

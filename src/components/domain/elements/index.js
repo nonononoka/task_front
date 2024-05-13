@@ -1,9 +1,7 @@
 import { AddTask } from "./AddTask";
-import { DateTitle } from "./DateTitle";
-import { EachTask } from "./EachTask";
+import { EachTaskListItem } from "./EachTaskListItem";
 
 export {
     AddTask,
-    DateTitle,
-    EachTask
+    EachTaskListItem
 };

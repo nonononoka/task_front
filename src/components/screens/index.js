@@ -1,3 +1,3 @@
-import { EverydayTaskScreenScreen } from "./EverydayTaskScreen";
+import { EverydayTaskScreen } from "./EverydayTaskScreen.jsx";
 
-export { EverydayTaskScreenScreen };
+export { EverydayTaskScreen };
