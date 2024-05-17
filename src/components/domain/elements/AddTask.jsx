@@ -1,10 +1,8 @@
 import { useState } from "react";
-import { AddTaskModalScreen } from "../../screens";
 import Modal from "@mui/material/Modal";
 import Box from '@mui/material/Box';
-
-import IconButton from "@mui/material/IconButton";
 import AddIcon from "@mui/icons-material/AddTask";
+import { AddTaskModalScreen } from "../../screens";
 import { TaskListIconButton } from "../../gui/groups";
 
 const style = {

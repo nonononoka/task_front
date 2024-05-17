@@ -2,7 +2,6 @@ import { gql, useMutation, useQuery } from "@apollo/client";
 import "react-datepicker/dist/react-datepicker.css";
 import { useState } from "react";
 import { formatISO } from "date-fns";
-import "./Modal.css";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import Card from "@mui/material/Card";

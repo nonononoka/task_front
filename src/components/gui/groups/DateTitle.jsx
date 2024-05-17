@@ -1,3 +1,5 @@
+import Typography from "@mui/material/Typography";
+
 export const DateTitle = ({ title, fontSize, fontWeight }) => {
     return (
         < Typography

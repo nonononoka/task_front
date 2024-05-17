@@ -1,7 +1,7 @@
-import { useAddShortTask } from "../../../useCase/command/addShortTask";
-import { useAddTask } from "../../../useCase/command/addTask";
-import { useAllTasks } from "../../../useCase/query/allRegisteredTasks";
-import { useAllCategories } from "../../../useCase/query/allCategories";
+import { useAddShortTask } from "../../useCase/command/addShortTask.js";
+import { useAddLongTask } from "../../useCase/command/addLongTask";
+import { useAllTasks } from "../../useCase/query/allRegisteredTasks";
+import { useAllCategories } from "../../useCase/query/allCategories";
 import { AddTaskModal } from "../domain/objects";
 
 export const AddTaskModalContainer = ({ onClose, isTemporary, temporaryDate }) => {

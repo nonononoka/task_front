@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 export const AuthContext = React.createContext();
 import AppRouter from "./AppRouter.jsx";
 
-export const Auth = ({ children }) => {
+export const Auth = () => {
   const [user, setUser] = useState(null);
   const [idToken, setIdToken] = useState("");
 
@@ -26,7 +26,6 @@ export const Auth = ({ children }) => {
         user,
       }}
     >
-      {children}
       <AppRouter idToken={idToken} />
     </AuthContext.Provider>
   );

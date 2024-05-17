@@ -1,10 +1,13 @@
-import { TaskStatusButton } from "../gui/groups";
-import { TaskStatusChip } from "../gui/groups";
-import { TaskListIconButton } from "../gui/groups";
+import { TaskStatusButton } from "../../gui/groups";
+import { TaskStatusChip } from "../../gui/groups";
+import { TaskListIconButton } from "../../gui/groups";
+import { TaskNameText } from "../../gui/groups";
 import { useRemoveTask } from "../../../useCase/command/removeTask";
 import { useChangeIsCompleted } from "../../../useCase/command/changeIsComplete";
+import ListItem from "@mui/material/ListItem";
+import DeleteIcon from "@mui/icons-material/Delete";
 
-export const EachTaskListItem = ({ task }) => {
+export const EachTaskListItem = ({ task, font_size }) => {
     const labelId = `chip-list-label-${task}`;
 
     //task優先度でchip背景色を切り替える関数

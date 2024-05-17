@@ -1,3 +1,5 @@
+import { gql } from "@apollo/client";
+
 export const ALL_REGISTERED_SHORT_TASKS = gql`
 query AllTasks {
   allRegisteredShortTasks {

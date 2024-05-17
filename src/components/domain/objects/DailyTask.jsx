@@ -1,7 +1,11 @@
-import { AddTask, DateTitle, EachTaskListItem } from "../elements";
-import { DateTitle } from "../gui/groups";
+import { AddTask, EachTaskListItem } from "../elements";
+import { DateTitle } from "../../gui/groups";
+import Card from "@mui/material/Card";
+import Grid from "@mui/material/Grid";
+import CardContent from "@mui/material/CardContent";
+import List from "@mui/material/List";
 
-export const DailyTask = ({ date, title, tasks, sx, item_xs0, item_xs1 }) => {
+export const DailyTask = ({ date, title, tasks, sx, item_xs0, item_xs1, font_size }) => {
     return (
         <>
             <Card sx={sx}>
@@ -18,7 +22,7 @@ export const DailyTask = ({ date, title, tasks, sx, item_xs0, item_xs1 }) => {
                     </Grid>
                     <List>
                         {tasks.map((task) => {
-                            <EachTaskListItem task={task} />
+                            return <EachTaskListItem key = {task.id} task={task} font_size = {font_size}/>
                         })}
                     </List>
                 </CardContent>

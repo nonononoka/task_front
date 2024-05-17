@@ -1,12 +1,11 @@
 import "react-datepicker/dist/react-datepicker.css";
 import { useState } from "react";
-import { formatISO } from "date-fns";
 import "./Modal.css";
 import Card from "@mui/material/Card";
-import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import { TaskInputCard } from "../../gui/groups/TaskInputCard";
 import { AllRegisteredTasks } from "../../gui/groups";
+import { formatISO } from "date-fns";
 
 // Import Swiper styles
 import "swiper/css";
@@ -24,7 +23,7 @@ export const AddTaskModal = ({ isTemporary, temporaryDate, onClose, categories, 
         <>
             {isTemporary && (
                 <AllRegisteredTasks allRegisteredTasks={registeredTaskData.allRegisteredTasks}
-                    handleClick={() => {
+                    handleClick={(task) => {
                         setName(task.name);
                         setSelectedPriority(task.priority);
                         setCategory(task.category);
@@ -57,16 +56,38 @@ export const AddTaskModal = ({ isTemporary, temporaryDate, onClose, categories, 
                 }}
             >
                 <TaskRegisterButton handleClick={() => {
-                    addTask({
-                        variables: {
-                            input: {
-                                name: name,
-                                limitDate: date ? date.toISOString() : null,
-                                priority: selectedPriority,
-                                category: category,
+                    // addTask({
+                    //     variables: {
+                    //         input: {
+                    //             name: name,
+                    //             limitDate: date ? date.toISOString() : null,
+                    //             priority: selectedPriority,
+                    //             category: category,
+                    //         },
+                    //     },
+                    // });
+
+                    isTemporary
+                        ? addTask({
+                            variables: {
+                                input: {
+                                    name: name,
+                                    expirationDate: date.toISOString(),
+                                    priority: selectedPriority,
+                                    category: category,
+                                },
                             },
-                        },
-                    });
+                        })
+                        : addTask({
+                            variables: {
+                                input: {
+                                    name: name,
+                                    limitDate: date ? date.toISOString() : null,
+                                    priority: selectedPriority,
+                                    category: category,
+                                },
+                            },
+                        });
                     onClose();
                 }} />
             </Box>

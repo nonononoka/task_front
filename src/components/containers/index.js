@@ -1,3 +1,3 @@
 import { DailyTaskContainer } from "./DailyTaskContainer";
-
-export { DailyTaskContainer };
+import { AddTaskModalContainer } from "./AddTaskModalContainer";
+export { DailyTaskContainer, AddTaskModalContainer };

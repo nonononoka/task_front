@@ -1,6 +1,7 @@
 // Components
 import { DailyTask } from "../domain/objects";
 import { useAllRegisteredShortTasks } from "../../useCase/query/allRegisteredShortTasks";
+import { formatISO } from "date-fns";
 
 export const DailyTaskContainer = () => {
     const priorities = ["LOW", "MIDDLE", "HIGH"];
@@ -30,14 +31,14 @@ export const DailyTaskContainer = () => {
         return isDateMatched(task.expirationDate, formatISO(Today));
     });
 
-    const sortedTodayTask = todayTask.sort(function (a, b) {
+    todayTask.sort(function (a, b) {
         return compareReturn(a.priority, b.priority);
     });
 
     const obj = {
-        Date: Today,
+        date: Today,
         title: "Today",
-        task: sortedTodayTask,
+        tasks: todayTask,
         sx: {
             width: "35%",
             height: "400px",
@@ -45,8 +46,8 @@ export const DailyTaskContainer = () => {
             backgroundColor: "white", // 背景色を指定
         },
         font_size: "21px",
-        item_xs0: "7px",
-        item_xs1: "5px",
+        item_xs0: 7,
+        item_xs1: 5,
         font_weight: "bold",
     };
 
